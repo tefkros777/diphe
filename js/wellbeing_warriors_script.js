@@ -7,7 +7,7 @@ function setResponseBodySize(){
 
     // The top of the response-body div is the sum of the height of all elements above it
     if (responseBodyDiv != null && questionBodyDiv != null && headerRowDiv !=null){
-        var top = sessionBar.offsetHeight + headerRowDiv.offsetHeight + questionBodyDiv.offsetHeight;
+        var top = sessionBarDiv.offsetHeight + headerRowDiv.offsetHeight + questionBodyDiv.offsetHeight;
         responseBodyDiv.style.top = top + 'px';
     }
 }
@@ -68,12 +68,15 @@ function setVideoSize(){
     var videoTitleDiv = document.getElementById("video_title_div");
     var videoTitleText = document.getElementById("video_title_text");
 
-    // If there is no video title
-    if (videoTitleText.innerText == ""){
-        // Enlarge video iFrame
-        videoTitleDiv.hidden == true;
-        videoIFrame.style.top = "10%";
-        videoIFrame.style.height = "90%";
+    // If slide has a video
+    if ( videoIFrame != null) {
+        // If there is no video title
+        if (videoTitleText.innerText == ""){
+            // Enlarge video iFrame
+            videoTitleDiv.hidden == true;
+            videoIFrame.style.top = "10%";
+            videoIFrame.style.height = "90%";
+        }
     }
 }
 
