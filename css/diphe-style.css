@@ -64,6 +64,7 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 
 .button-bar {
     display: flex;
+    gap: 1rem;
     justify-content: space-between;
     margin-top: 1rem;
 }
@@ -134,7 +135,13 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     padding-left: 5rem;
     padding-right: 5rem;
     border: none;
+    display: flex;
+    align-items: center;
     /*background-color: deeppink;*/
+}
+
+.video-title h3{
+    /*foo*/
 }
 
 .guidance-header{
@@ -171,82 +178,87 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     width: 100%;
 }
 
+/* Classes I-NINJA */
+.assignment_body{
+    position: absolute;
+    top: 20%; /* Set to the height of the session-bar & header divs */
+    height: 80%;
+    width: 100%;
+    padding: 2.5rem;
+    background-color: lemonchiffon;
+    align-items: center;
+}
+
 /* Classes for buttons depending on session */
 .session-1-button{
     background-color: #A30100;
     border: 2px solid #A30100;
 }
-
 .session-1-button:hover{
     border: 2px solid #A30100;
     background-color: #fff;
     color: #A30100;
 }
-
 .session-1-button:focus{
     border: 2px solid #A30100;
     background-color: #fff;
     color: #A30100;
 }
+
 .session-2-button{
     background-color: #1983E7;
     border: 2px solid #1983E7;
 }
-
 .session-2-button:hover{
     border: 2px solid #1983E7;
     background-color: #fff;
     color: #1983E7;
 }
-
 .session-2-button:focus{
     border: 2px solid #1983E7;
     background-color: #fff;
     color: #1983E7;
 }
+
 .session-3-button{
     background-color: #702EA0;
     border: 2px solid #702EA0;
 }
-
 .session-3-button:hover{
     border: 2px solid #702EA0;
     background-color: #fff;
     color: #702EA0;
 }
-
 .session-3-button:focus{
     border: 2px solid #702EA0;
     background-color: #fff;
     color: #702EA0;
 }
+
 .session-4-button{
     background-color: #1A7B00;
     border: 2px solid #1A7B00;
 }
-
 .session-4-button:hover{
     border: 2px solid #1A7B00;
     background-color: #fff;
     color: #1A7B00;
 }
-
 .session-4-button:focus{
     border: 2px solid #1A7B00;
     background-color: #fff;
     color: #1A7B00;
 }
+
 .session-5-button{
     background-color: #F18601;
     border: 2px solid #F18601;
 }
-
 .session-5-button:hover{
     border: 2px solid #F18601;
     background-color: #fff;
     color: #F18601;
 }
-
 .session-5-button:focus{
     border: 2px solid #F18601;
     background-color: #fff;

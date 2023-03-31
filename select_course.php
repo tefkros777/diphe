@@ -21,20 +21,33 @@ function select_course(){
     $src_css = plugin_dir_url(__FILE__) . 'css/diphe-style.css';
     echo "<link rel='stylesheet' type='text/css' href='$src_css'>";
 
+    // Will need to query slides for this user and user progress (last slide for every course)
+
     // Show available courses for the user
     echo "<div class='button-bar'>";
 
+    // Wellness Warrior Student
     echo"
         <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-            <button type='submit'>Wellbeing Warriors (Student)</button>
+            <button class='session-5-button' type='submit'>Wellbeing Warriors (Student)</button>
             <input type='hidden' name='course_id' value='1'/>
         </form>
     ";
 
+    // Wellness Warrior Teacher
     echo"
         <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-            <button type='submit'>Wellbeing Warriors (Teacher)</button>
+            <button class='session-5-button' type='submit'>Wellbeing Warriors (Teacher)</button>
             <input type='hidden' name='course_id' value='2'/>
+        </form>
+    ";
+
+    // i-Ninja Tier 1
+    echo"
+        <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/i-ninja' method='post'>
+            <button class='session-1-button' type='submit'>i-Ninja Tier 1 (Under construction)</button>
+            <input type='hidden' name='course_id' value='3'/>
+            <input type='hidden' name='last_slide_for_user' value='1'/> <!--THIS IS HARDCODED FOR TESTING-->
         </form>
     ";
 
