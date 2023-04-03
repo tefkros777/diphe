@@ -70,6 +70,7 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 
 .button-bar {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     justify-content: space-between;
     margin-top: 1rem;
