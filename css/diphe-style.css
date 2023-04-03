@@ -46,7 +46,7 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 }
 /*For small screens*/
 .header-row h1 {
-    font-size: 3vw;
+    font-size: calc(1em + 1.5vw);
     max-width: 90%;
     white-space: nowrap;
 }
@@ -98,6 +98,10 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     justify-content: center;
 }
 
+.session-bar div:hover{
+    cursor: pointer;
+}
+
 .video-iframe {
     position: absolute;
     padding-bottom: 1px;
@@ -112,10 +116,21 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     position: absolute;
     top: 30%;
     width: 100%;
-    padding-left: 5rem;
-    padding-right: 5rem;
+    padding-left: 2.5vw;
+    padding-right: 5vw;
     border: none;
+    justify-content: center;
     /*background-color: darkcyan;*/
+}
+
+.question-body h3{
+    /*font-size: calc(1em + 1vw);*/
+}
+
+@media screen and (max-width: 991px) {
+    .question-body h3 {
+        font-size: 2vw;
+    }
 }
 
 .response-body{
@@ -124,14 +139,30 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     bottom: 0;
     width: 100%;
     height: auto; /* Set to the remaining height of the course-screen div */
-    padding-left: 10rem;
-    padding-right: 5rem;
+    padding-left: 5vw;
+    padding-right: 2vw;
     border: none;
     /*background-color: palegreen;*/
 }
 
+.response-body p{
+    font-size: calc(12px + 0.390625vw);
+    font-weight: bold;
+}
+
+@media screen and (max-width: 991px) {
+    .response-body p {
+        font-size: 1.5vw;
+        font-weight: bold;
+    }
+}
+
 .top-header{
     text-align: center;
+}
+
+.top-header h1{
+    font-size: calc(1em + 1vw);
 }
 
 .video-title{
@@ -148,7 +179,17 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 }
 
 .video-title h3{
-    /*foo*/
+    font-size: calc(1em + 1vw);
+}
+
+@media screen and (max-width: 991px) {
+    .video-title {
+        padding-left: 2.5vw;
+        padding-right: 1rem;
+    }
+    .video-title h3 {
+        font-size: calc(12px + 0.390625vw)
+    }
 }
 
 .guidance-header{
@@ -162,14 +203,25 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     background-color: lightgray;
 }
 
+.guidance-header h3{
+    font-size: calc(1em + 1vw);
+}
+
+
 .guidance-body{
     position: absolute;
     top: 20%; /* Set to the height of the session-bar & guidance-header divs */
     height: 80%;
     display: flex;
-    padding: 2.5rem;
+    padding: 1vw 5vw;
     align-items: center; /* Center vertically */
     justify-content: center; /* Center horizontally */
+}
+
+@media screen and (max-width: 991px) {
+    .guidance-body p {
+        font-size: 1.5vw;
+    }
 }
 
 .disclaimer-header{

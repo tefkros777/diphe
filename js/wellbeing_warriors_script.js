@@ -86,6 +86,12 @@ function changeSessionButtonClass(session_num){
     });
 }
 
+function sessionClick(elem){
+    var formID = "F" + elem.id;
+    var form = document.getElementById(formID);
+    form.submit();
+}
+
 // Called automatically when page loads
 window.addEventListener("load", function() {
     // Once loading is finished, call function

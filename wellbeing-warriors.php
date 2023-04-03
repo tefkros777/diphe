@@ -246,18 +246,55 @@ function video_slide($course_id, $slide_num){
             break;
     }
 
+    // Find first slide for every session
+    $s1 = find_first_slide_of_session($course_id, '1');
+    $s2 = find_first_slide_of_session($course_id, '2');
+    $s3 = find_first_slide_of_session($course_id, '3');
+    $s4 = find_first_slide_of_session($course_id, '4');
+    $s5 = find_first_slide_of_session($course_id, '5');
+
     // Create Video Slide Rendering
-    echo"
-    <div class='outer-container'>
+    echo "
+    <div class='outer-container' xmlns=\"http://www.w3.org/1999/html\">
         <div class='course-screen'>
             <!-- Session Bar -->
             <div class='session-bar'>
                 <input type='hidden' id='current_session_num' value='$session_num'/>
-                <div style='background-color: $session_1_color'>Session 1</div>
-                <div style='background-color: $session_2_color'>Session 2</div>
-                <div style='background-color: $session_3_color'>Session 3</div>
-                <div style='background-color: $session_4_color'>Session 4</div>
-                <div style='background-color: $session_5_color'>Session 5</div>
+                <div id='1' style='background-color: $session_1_color' onclick='sessionClick(this)'>
+                    <form id='F1' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s1'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 1
+                </div>
+                <div id='2' style='background-color: $session_2_color' onclick='sessionClick(this)'>
+                    <form id='F2' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s2'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 2
+                    </div>
+                <div id='3' style='background-color: $session_3_color' onclick='sessionClick(this)'>
+                    <form id='F3' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s3'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 3
+                </div>
+                <div id='4' style='background-color: $session_4_color' onclick='sessionClick(this)'>
+                    <form id='F4' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s4'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 4
+                </div>
+                <div id='5' style='background-color: $session_5_color' onclick='sessionClick(this)' '>
+                    <form id='F5' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s5'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 5
+                </div>
             </div>
             <!-- Header -->
             <div class='video-title' id='video_title_div'>
@@ -381,6 +418,13 @@ function quiz_slide($course_id, $slide_num){
             break;
     }
 
+    // Find first slide for every session
+    $s1 = find_first_slide_of_session($course_id, '1');
+    $s2 = find_first_slide_of_session($course_id, '2');
+    $s3 = find_first_slide_of_session($course_id, '3');
+    $s4 = find_first_slide_of_session($course_id, '4');
+    $s5 = find_first_slide_of_session($course_id, '5');
+
     // Create Quiz Slide Rendering
     echo"
     <div class='outer-container' onload='setResponseBodySize()'>
@@ -388,11 +432,41 @@ function quiz_slide($course_id, $slide_num){
             <!-- Session Bar -->
             <div class='session-bar' id='session-bar'>
                 <input type='hidden' id='current_session_num' value='$session_num'/>
-                <div style='background-color: $session_1_color'>Session 1</div>
-                <div style='background-color: $session_2_color'>Session 2</div>
-                <div style='background-color: $session_3_color'>Session 3</div>
-                <div style='background-color: $session_4_color'>Session 4</div>
-                <div style='background-color: $session_5_color'>Session 5</div>
+                <div id='1' style='background-color: $session_1_color' onclick='sessionClick(this)'>
+                    <form id='F1' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s1'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 1
+                </div>
+                <div id='2' style='background-color: $session_2_color' onclick='sessionClick(this)'>
+                    <form id='F2' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s2'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 2
+                </div>
+                <div id='3' style='background-color: $session_3_color' onclick='sessionClick(this)'>
+                    <form id='F3' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s3'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 3
+                </div>
+                <div id='4' style='background-color: $session_4_color' onclick='sessionClick(this)'>
+                    <form id='F4' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s4'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 4
+                </div>
+                <div id='5' style='background-color: $session_5_color' onclick='sessionClick(this)'>
+                    <form id='F5' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s5'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 5
+                </div>
             </div>
             <!-- Header -->
             <div class='header-row' id='header-row'>
@@ -400,11 +474,11 @@ function quiz_slide($course_id, $slide_num){
             </div>
             <!-- Question -->
             <div class='question-body' id='question-body'>
-                <h2>$question_text</h2>
+                <h3>$question_text</h3>
             </div>            
             <!-- Response -->
             <div class='response-body' id='response-body' hidden>
-                <h4>$response_text</h4>
+                <p>$response_text</p>
             </div>
         </div>
     </div>
@@ -518,6 +592,13 @@ function survey_slide($course_id, $slide_num){
             break;
     }
 
+    // Find first slide for every session
+    $s1 = find_first_slide_of_session($course_id, '1');
+    $s2 = find_first_slide_of_session($course_id, '2');
+    $s3 = find_first_slide_of_session($course_id, '3');
+    $s4 = find_first_slide_of_session($course_id, '4');
+    $s5 = find_first_slide_of_session($course_id, '5');
+
     // Create survey Slide Rendering
     echo"
     <div class='outer-container' onload='setResponseBodySize()'>
@@ -525,11 +606,41 @@ function survey_slide($course_id, $slide_num){
             <!-- Session Bar -->
             <div class='session-bar' id='session-bar'>
                 <input type='hidden' id='current_session_num' value='$session_num'/>
-                <div style='background-color: $session_1_color'>Session 1</div>
-                <div style='background-color: $session_2_color'>Session 2</div>
-                <div style='background-color: $session_3_color'>Session 3</div>
-                <div style='background-color: $session_4_color'>Session 4</div>
-                <div style='background-color: $session_5_color'>Session 5</div>
+                <div id='1' style='background-color: $session_1_color' onclick='sessionClick(this)'>
+                    <form id='F1' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s1'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 1
+                </div>
+                <div id='2' style='background-color: $session_2_color' onclick='sessionClick(this)'>
+                    <form id='F2' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s2'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 2
+                </div>
+                <div id='3' style='background-color: $session_3_color' onclick='sessionClick(this)'>
+                    <form id='F3' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s3'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 3
+                </div>
+                <div id='4' style='background-color: $session_4_color' onclick='sessionClick(this)'>
+                    <form id='F4' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s4'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 4
+                </div>
+                <div id='5' style='background-color: $session_5_color' onclick='sessionClick(this)'>
+                    <form id='F5' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s5'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 5
+                </div>
             </div>
             <!-- Header -->
             <div class='header-row' id='header-row'>
@@ -537,12 +648,12 @@ function survey_slide($course_id, $slide_num){
             </div>
             <!-- Text -->
             <div class='question-body' id='question-body'>
-                <h2>$text</h2>
+                <h3>$text</h3>
             </div>            
             <!-- Link -->
             <div class='response-body' id='response-body'>
                 <!-- Open in new tab -->
-                <h4><a href='$survey_link' target='_blank'>$survey_link</a></h4>
+                <p><a href='$survey_link' target='_blank'>$survey_link</a></p>
             </div>
         </div>
     </div>
@@ -653,6 +764,13 @@ function guidance_slide($course_id, $slide_num){
             break;
     }
 
+    // Find first slide for every session
+    $s1 = find_first_slide_of_session($course_id, '1');
+    $s2 = find_first_slide_of_session($course_id, '2');
+    $s3 = find_first_slide_of_session($course_id, '3');
+    $s4 = find_first_slide_of_session($course_id, '4');
+    $s5 = find_first_slide_of_session($course_id, '5');
+
     // Create guidance Slide Rendering
     echo"
     <div class='outer-container' onload='setResponseBodySize()'>
@@ -660,11 +778,41 @@ function guidance_slide($course_id, $slide_num){
             <!-- Session Bar -->
             <div class='session-bar' id='session-bar'>
                 <input type='hidden' id='current_session_num' value='$session_num'/>
-                <div style='background-color: $session_1_color'>Session 1</div>
-                <div style='background-color: $session_2_color'>Session 2</div>
-                <div style='background-color: $session_3_color'>Session 3</div>
-                <div style='background-color: $session_4_color'>Session 4</div>
-                <div style='background-color: $session_5_color'>Session 5</div>
+                <div id='1' style='background-color: $session_1_color' onclick='sessionClick(this)'>
+                    <form id='F1' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s1'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 1
+                </div>
+                <div id='2' style='background-color: $session_2_color' onclick='sessionClick(this)'>
+                    <form id='F2' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s2'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 2
+                </div>
+                <div id='3' style='background-color: $session_3_color' onclick='sessionClick(this)'>
+                    <form id='F3' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s3'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 3
+                </div>
+                <div id='4' style='background-color: $session_4_color' onclick='sessionClick(this)'>
+                    <form id='F4' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s4'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 4
+                </div>
+                <div id='5' style='background-color: $session_5_color' onclick='sessionClick(this)'>
+                    <form id='F5' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s5'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 5
+                </div>
             </div>
             <!-- Header -->
             <div class='guidance-header'>
@@ -795,5 +943,23 @@ function disclaimer_slide($course_id, $slide_num){
 }
 
 function show_map(){
+
+}
+
+function find_first_slide_of_session($course_id, $session_num){
+    // DB Connection
+    $DB_NAME = "diphedb";
+    $MYSQL_USERNAME = "diphedb";
+    $MYSQL_PASSWORD = "JNJaBF0oIAUG0SUd";
+    $HOST_SERVER = "dbserver.in.cs.ucy.ac.cy";
+
+    // CONNECT WITH THE DATABASE
+    $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
+
+    // Get from DB: Session Num, Header (if exists) Video link
+    $sql_first_slide_in_session = "SELECT slide_num FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND session_num = '$session_num' ORDER BY slide_num LIMIT 1";
+    $result_first_slide_in_session = mysqli_query($con,$sql_first_slide_in_session);
+    $slide_first_slide_in_session = mysqli_fetch_assoc($result_first_slide_in_session);
+    return $slide_first_slide_in_session['slide_num'];
 
 }
