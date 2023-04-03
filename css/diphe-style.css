@@ -44,6 +44,12 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     justify-content: center; /* Center horizontally */
     background-color: lightgray;
 }
+/*For small screens*/
+.header-row h1 {
+    font-size: 3vw;
+    max-width: 90%;
+    white-space: nowrap;
+}
 
 .logo-row {
     display: flex;
@@ -184,9 +190,12 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     top: 20%; /* Set to the height of the session-bar & header divs */
     height: 80%;
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
     padding: 2.5rem;
     background-color: lemonchiffon;
     align-items: center;
+    justify-content: center;
 }
 
 /* Classes for buttons depending on session */
