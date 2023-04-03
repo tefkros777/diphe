@@ -23,39 +23,19 @@ function setCurrentSession(){
 
     switch (sessionNum){
         case '1':
-            // Set session header colors
-            divSession1.style.backgroundColor = "#A30100";
             // Set the button styles
             changeSessionButtonClass('1');
             break;
         case '2':
-            // Set session header colors
-            divSession1.style.backgroundColor = "#A30100";
-            divSession2.style.backgroundColor = "#1983E7";
             changeSessionButtonClass('2');
             break;
         case '3':
-            // Set session header colors
-            divSession1.style.backgroundColor = "#A30100";
-            divSession2.style.backgroundColor = "#1983E7";
-            divSession3.style.backgroundColor = "#702EA0";
             changeSessionButtonClass('3');
             break;
         case '4':
-            // Set session header colors
-            divSession1.style.backgroundColor = "#A30100";
-            divSession2.style.backgroundColor = "#1983E7";
-            divSession3.style.backgroundColor = "#702EA0";
-            divSession4.style.backgroundColor = "#1A7B00";
             changeSessionButtonClass('4');
             break;
         case '5':
-            // Set session header colors
-            divSession1.style.backgroundColor = "#A30100";
-            divSession2.style.backgroundColor = "#1983E7";
-            divSession3.style.backgroundColor = "#702EA0";
-            divSession4.style.backgroundColor = "#1A7B00";
-            divSession5.style.backgroundColor = "#F18601";
             changeSessionButtonClass('5');
             break;
         default:

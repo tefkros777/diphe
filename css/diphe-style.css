@@ -204,14 +204,14 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     border: 2px solid #A30100;
 }
 .session-1-button:hover{
-    border: 2px solid #A30100;
-    background-color: #fff;
-    color: #A30100;
+    border: 2px solid #A30100 !important;
+    background-color: #fff !important;
+    color: #A30100 !important;
 }
 .session-1-button:focus{
-    border: 2px solid #A30100;
-    background-color: #fff;
-    color: #A30100;
+    border: 2px solid #A30100 !important;
+    background-color: #fff !important;
+    color: #A30100 !important;
 }
 
 .session-2-button{
@@ -219,14 +219,14 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     border: 2px solid #1983E7;
 }
 .session-2-button:hover{
-    border: 2px solid #1983E7;
-    background-color: #fff;
-    color: #1983E7;
+    border: 2px solid #1983E7 !important;
+    background-color: #fff !important;
+    color: #1983E7 !important;
 }
 .session-2-button:focus{
-    border: 2px solid #1983E7;
-    background-color: #fff;
-    color: #1983E7;
+    border: 2px solid #1983E7 !important;
+    background-color: #fff !important;
+    color: #1983E7 !important;
 }
 
 .session-3-button{
@@ -234,14 +234,14 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     border: 2px solid #702EA0;
 }
 .session-3-button:hover{
-    border: 2px solid #702EA0;
-    background-color: #fff;
-    color: #702EA0;
+    border: 2px solid #702EA0 !important;
+    background-color: #fff !important;
+    color: #702EA0 !important;
 }
 .session-3-button:focus{
-    border: 2px solid #702EA0;
-    background-color: #fff;
-    color: #702EA0;
+    border: 2px solid #702EA0 !important;
+    background-color: #fff !important;
+    color: #702EA0 !important;
 }
 
 .session-4-button{
@@ -249,14 +249,14 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     border: 2px solid #1A7B00;
 }
 .session-4-button:hover{
-    border: 2px solid #1A7B00;
-    background-color: #fff;
-    color: #1A7B00;
+    border: 2px solid #1A7B00 !important;
+    background-color: #fff !important;
+    color: #1A7B00 !important;
 }
 .session-4-button:focus{
-    border: 2px solid #1A7B00;
-    background-color: #fff;
-    color: #1A7B00;
+    border: 2px solid #1A7B00 !important;
+    background-color: #fff !important;
+    color: #1A7B00 !important;
 }
 
 .session-5-button{
@@ -264,12 +264,12 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     border: 2px solid #F18601;
 }
 .session-5-button:hover{
-    border: 2px solid #F18601;
-    background-color: #fff;
-    color: #F18601;
+    border: 2px solid #F18601 !important;
+    background-color: #fff !important;
+    color: #F18601 !important;
 }
 .session-5-button:focus{
-    border: 2px solid #F18601;
-    background-color: #fff;
-    color: #F18601;
+    border: 2px solid #F18601 !important;
+    background-color: #fff !important;
+    color: #F18601 !important;
 }
