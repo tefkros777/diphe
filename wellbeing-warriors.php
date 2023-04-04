@@ -202,49 +202,14 @@ function video_slide($course_id, $slide_num){
     $header      = $slide_data['header'];
     $video_link  = $slide_data['video_survey_link'];
 
-    $session_color = "808080";
-    switch ($session_num){
-        case '1':
-            $session_1_color = "#A30100";
-            $session_2_color = "#808080";
-            $session_3_color = "#808080";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#A30100";
-            break;
-        case '2':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#808080";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#1983E7";
-            break;
-        case '3':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#702EA0";
-            break;
-        case '4':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#1A7B00";
-            $session_5_color = "#808080";
-            $session_color   = "#1A7B00";
-            break;
-        case '5':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#1A7B00";
-            $session_5_color = "#F18601";
-            $session_color   = "#F18601";
-            break;
-    }
+    // Find session colors
+    $session_colors  = get_session_colors($session_num);
+    $session_1_color = $session_colors['session_1_color'];
+    $session_2_color = $session_colors['session_2_color'];
+    $session_3_color = $session_colors['session_3_color'];
+    $session_4_color = $session_colors['session_4_color'];
+    $session_5_color = $session_colors['session_5_color'];
+    $session_color   = $session_colors['session_color'];
 
     // Find first slide for every session
     $s1 = find_first_slide_of_session($course_id, '1');
@@ -374,49 +339,14 @@ function quiz_slide($course_id, $slide_num){
     $question_text = $slide_data['question_text'];
     $response_text = $slide_data['response_text'];
 
-    $session_color = "808080";
-    switch ($session_num){
-        case '1':
-            $session_1_color = "#A30100";
-            $session_2_color = "#808080";
-            $session_3_color = "#808080";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#A30100";
-            break;
-        case '2':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#808080";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#1983E7";
-            break;
-        case '3':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#702EA0";
-            break;
-        case '4':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#1A7B00";
-            $session_5_color = "#808080";
-            $session_color   = "#1A7B00";
-            break;
-        case '5':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#1A7B00";
-            $session_5_color = "#F18601";
-            $session_color   = "#F18601";
-            break;
-    }
+    // Find session colors
+    $session_colors  = get_session_colors($session_num);
+    $session_1_color = $session_colors['session_1_color'];
+    $session_2_color = $session_colors['session_2_color'];
+    $session_3_color = $session_colors['session_3_color'];
+    $session_4_color = $session_colors['session_4_color'];
+    $session_5_color = $session_colors['session_5_color'];
+    $session_color   = $session_colors['session_color'];
 
     // Find first slide for every session
     $s1 = find_first_slide_of_session($course_id, '1');
@@ -548,49 +478,14 @@ function survey_slide($course_id, $slide_num){
     $text          = $slide_data['question_text'];
     $survey_link   = $slide_data['video_survey_link'];
 
-    $session_color = "808080";
-    switch ($session_num){
-        case '1':
-            $session_1_color = "#A30100";
-            $session_2_color = "#808080";
-            $session_3_color = "#808080";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#A30100";
-            break;
-        case '2':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#808080";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#1983E7";
-            break;
-        case '3':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#702EA0";
-            break;
-        case '4':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#1A7B00";
-            $session_5_color = "#808080";
-            $session_color   = "#1A7B00";
-            break;
-        case '5':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#1A7B00";
-            $session_5_color = "#F18601";
-            $session_color   = "#F18601";
-            break;
-    }
+    // Find session colors
+    $session_colors  = get_session_colors($session_num);
+    $session_1_color = $session_colors['session_1_color'];
+    $session_2_color = $session_colors['session_2_color'];
+    $session_3_color = $session_colors['session_3_color'];
+    $session_4_color = $session_colors['session_4_color'];
+    $session_5_color = $session_colors['session_5_color'];
+    $session_color   = $session_colors['session_color'];
 
     // Find first slide for every session
     $s1 = find_first_slide_of_session($course_id, '1');
@@ -720,49 +615,14 @@ function guidance_slide($course_id, $slide_num){
     $header        = $slide_data['header'];
     $guidance_text = $slide_data['question_text'];
 
-    $session_color = "808080";
-    switch ($session_num){
-        case '1':
-            $session_1_color = "#A30100";
-            $session_2_color = "#808080";
-            $session_3_color = "#808080";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#A30100";
-            break;
-        case '2':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#808080";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#1983E7";
-            break;
-        case '3':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#808080";
-            $session_5_color = "#808080";
-            $session_color   = "#702EA0";
-            break;
-        case '4':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#1A7B00";
-            $session_5_color = "#808080";
-            $session_color   = "#1A7B00";
-            break;
-        case '5':
-            $session_1_color = "#A30100";
-            $session_2_color = "#1983E7";
-            $session_3_color = "#702EA0";
-            $session_4_color = "#1A7B00";
-            $session_5_color = "#F18601";
-            $session_color   = "#F18601";
-            break;
-    }
+    // Find session colors
+    $session_colors  = get_session_colors($session_num);
+    $session_1_color = $session_colors['session_1_color'];
+    $session_2_color = $session_colors['session_2_color'];
+    $session_3_color = $session_colors['session_3_color'];
+    $session_4_color = $session_colors['session_4_color'];
+    $session_5_color = $session_colors['session_5_color'];
+    $session_color   = $session_colors['session_color'];
 
     // Find first slide for every session
     $s1 = find_first_slide_of_session($course_id, '1');
@@ -962,4 +822,56 @@ function find_first_slide_of_session($course_id, $session_num){
     $slide_first_slide_in_session = mysqli_fetch_assoc($result_first_slide_in_session);
     return $slide_first_slide_in_session['slide_num'];
 
+}
+
+function get_session_colors($session_num): array {
+    switch ($session_num){
+        case '1':
+            $session_1_color = "#A30100";
+            $session_2_color = "#808080";
+            $session_3_color = "#808080";
+            $session_4_color = "#808080";
+            $session_5_color = "#808080";
+            $session_color   = "#A30100";
+            break;
+        case '2':
+            $session_1_color = "#A30100";
+            $session_2_color = "#1983E7";
+            $session_3_color = "#808080";
+            $session_4_color = "#808080";
+            $session_5_color = "#808080";
+            $session_color   = "#1983E7";
+            break;
+        case '3':
+            $session_1_color = "#A30100";
+            $session_2_color = "#1983E7";
+            $session_3_color = "#702EA0";
+            $session_4_color = "#808080";
+            $session_5_color = "#808080";
+            $session_color   = "#702EA0";
+            break;
+        case '4':
+            $session_1_color = "#A30100";
+            $session_2_color = "#1983E7";
+            $session_3_color = "#702EA0";
+            $session_4_color = "#1A7B00";
+            $session_5_color = "#808080";
+            $session_color   = "#1A7B00";
+            break;
+        case '5':
+            $session_1_color = "#A30100";
+            $session_2_color = "#1983E7";
+            $session_3_color = "#702EA0";
+            $session_4_color = "#1A7B00";
+            $session_5_color = "#F18601";
+            $session_color   = "#F18601";
+            break;
+    }
+    $result['session_1_color'] = $session_1_color;
+    $result['session_2_color'] = $session_2_color;
+    $result['session_3_color'] = $session_3_color;
+    $result['session_4_color'] = $session_4_color;
+    $result['session_5_color'] = $session_5_color;
+    $result['session_color']   = $session_color;
+    return $result;
 }
