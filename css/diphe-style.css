@@ -29,7 +29,6 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     align-items: center; /* Center vertically */
     justify-content: center; /* Center horizontally */
 }
-
 .img-row img {
     height: 100%;
     width: 100%;
@@ -44,7 +43,6 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     justify-content: center; /* Center horizontally */
     background-color: lightgray;
 }
-/*For small screens*/
 .header-row h1 {
     font-size: calc(1em + 1.5vw);
     max-width: 90%;
@@ -60,7 +58,6 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     align-items: center; /* Center vertically */
     justify-content: space-between; /* Center horizontally */
 }
-
 .logo-row img {
     height: 100%;
     max-width: calc(20% - 10px); /* 25% because we have 4 images, -10px to account for the right margin */
@@ -79,7 +76,6 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 .button-bar button{
     min-width: 10rem;
 }
-
 .session-bar {
     display: flex;
     height: 10%;
@@ -97,9 +93,9 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     align-items: center;
     justify-content: center;
 }
-
 .session-bar div:hover{
     cursor: pointer;
+    filter: brightness(0.85);
 }
 
 .video-iframe {
@@ -122,15 +118,8 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     justify-content: center;
     /*background-color: darkcyan;*/
 }
-
 .question-body h3{
     /*font-size: calc(1em + 1vw);*/
-}
-
-@media screen and (max-width: 991px) {
-    .question-body h3 {
-        font-size: 2vw;
-    }
 }
 
 .response-body{
@@ -144,23 +133,14 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     border: none;
     /*background-color: palegreen;*/
 }
-
 .response-body p{
     font-size: calc(12px + 0.390625vw);
     font-weight: bold;
 }
 
-@media screen and (max-width: 991px) {
-    .response-body p {
-        font-size: 1.5vw;
-        font-weight: bold;
-    }
-}
-
 .top-header{
     text-align: center;
 }
-
 .top-header h1{
     font-size: calc(1em + 1vw);
 }
@@ -177,19 +157,8 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     align-items: center;
     /*background-color: deeppink;*/
 }
-
 .video-title h3{
     font-size: calc(1em + 1vw);
-}
-
-@media screen and (max-width: 991px) {
-    .video-title {
-        padding-left: 2.5vw;
-        padding-right: 1rem;
-    }
-    .video-title h3 {
-        font-size: calc(12px + 0.390625vw)
-    }
 }
 
 .guidance-header{
@@ -202,11 +171,9 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     justify-content: center; /* Center horizontally */
     background-color: lightgray;
 }
-
 .guidance-header h3{
     font-size: calc(1em + 1vw);
 }
-
 
 .guidance-body{
     position: absolute;
@@ -218,16 +185,9 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     justify-content: center; /* Center horizontally */
 }
 
-@media screen and (max-width: 991px) {
-    .guidance-body p {
-        font-size: 1.5vw;
-    }
-}
-
 .disclaimer-header{
     text-align: center;
 }
-
 .disclaimer-body{
     padding: 5rem;
 }
@@ -235,6 +195,27 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 .center-a-tag{
     text-align: center;
     width: 100%;
+}
+
+/*For smaller displays*/
+@media screen and (max-width: 991px) {
+    .question-body h3 {
+        font-size: 2vw;
+    }
+    .response-body p {
+        font-size: 1.5vw;
+        font-weight: bold;
+    }
+    .video-title {
+        padding-left: 2.5vw;
+        padding-right: 1rem;
+    }
+    .video-title h3 {
+        font-size: calc(12px + 0.390625vw)
+    }
+    .guidance-body p {
+        font-size: 1.5vw;
+    }
 }
 
 /* Classes I-NINJA */
