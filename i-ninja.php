@@ -21,6 +21,10 @@ function i_ninja_start(){
     $src_css = plugin_dir_url(__FILE__) . 'css/diphe-style.css';
     echo "<link rel='stylesheet' type='text/css' href='$src_css'>";
 
+    // Include external JS
+    $src = plugin_dir_url(__FILE__) . 'js/i-ninja_script.js';
+    echo "<script type='text/javascript' src='$src'></script>";
+
     // Get course tier
     if ( isset( $_POST['course_id'] ) ){
         $course_id   = $_POST['course_id'];
@@ -116,11 +120,11 @@ function ninja_video_slide($course_id, $slide_to_load){
             <!-- Session Bar -->
             <div class='session-bar'>
                 <input type='hidden' id='current_session_num' value='$session_id'/>
-                <div id='div_session_1'>[DEMO] Session 1</div>
-                <div id='div_session_2'>[DEMO] Session 2</div>
-                <div id='div_session_3'>[DEMO] Session 3</div>
-                <div id='div_session_4'>[DEMO] Session 4</div>
-                <div id='div_session_5'>[DEMO] Session 5</div>
+                <div id='div_session_1'>Way of Martial Arts</div>
+                <div id='div_session_2'>Roles of an I-Ninja Coach</div>
+                <div id='div_session_3'>Responsibilities of an I-Ninja Coach</div>
+                <div id='div_session_4'>Health and Wellbeing</div>
+                <div id='div_session_5'>Inclusive Martial Arts</div>
             </div>
             <!-- Header -->
             <div class='video-title' id='video_title_div'>
@@ -138,10 +142,6 @@ function ninja_video_slide($course_id, $slide_to_load){
         </div>
     </div>
     ";
-
-    // Include external JS
-    $src = plugin_dir_url(__FILE__) . 'js/i-ninja_script.js';
-    echo "<script type='text/javascript' src='$src'></script>";
 
     // Open button bar
     echo "
@@ -206,23 +206,22 @@ function assignment_slide($course_id, $slide_to_load){
     $body           = $slide_data['body'];
     $research_link  = $slide_data['research_link'];
 
-    // Create Video Slide Rendering
+    // Create Assignment Slide Rendering
     echo"
-
     <div class='outer-container'>
         <div class='course-screen'>
             <!-- Session Bar -->
             <div class='session-bar'>
                 <input type='hidden' id='current_session_num' value='$session_id'/>
-                <div id='div_session_1'>[DEMO] Session 1</div>
-                <div id='div_session_2'>[DEMO] Session 2</div>
-                <div id='div_session_3'>[DEMO] Session 3</div>
-                <div id='div_session_4'>[DEMO] Session 4</div>
-                <div id='div_session_5'>[DEMO] Session 5</div>
+                <div id='div_session_1'>Way of Martial Arts</div>
+                <div id='div_session_2'>Roles of an I-Ninja Coach</div>
+                <div id='div_session_3'>Responsibilities of an I-Ninja Coach</div>
+                <div id='div_session_4'>Health and Wellbeing</div>
+                <div id='div_session_5'>Inclusive Martial Arts</div>
             </div>
             <!-- Header -->
-            <div class='video-title' id='video_title_div'>
-                <h3 id='video_title_text'>$header</h3>
+            <div class='header-row'>
+                <h1>$header</h1>
             </div>
             <!-- Body -->
             <div class='assignment_body' id='assignment_body'>
@@ -232,14 +231,13 @@ function assignment_slide($course_id, $slide_to_load){
     </div>
     ";
 
-    // Include external JS
-    $src = plugin_dir_url(__FILE__) . 'js/i-ninja_script.js';
-    echo "<script type='text/javascript' src='$src'></script>";
-
     // Open button bar
     echo "
     <div class='button-bar'>
         <button class='session-color-button' onclick='history.back()'>Back</input>
+        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='window.location.href=\"$slide_data[research_link]\"'>Research</button>
+        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='notes()'>Notes</button>
+        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='chat()'>Chat to learners</button>
     ";
 
     // Find next slide of this course if it exists
@@ -273,7 +271,100 @@ function assignment_slide($course_id, $slide_to_load){
 }
 
 function submit_assignment_slide($course_id, $slide_to_load){
+    // DB Connection
+    $DB_NAME = "diphedb";
+    $MYSQL_USERNAME = "diphedb";
+    $MYSQL_PASSWORD = "JNJaBF0oIAUG0SUd";
+    $HOST_SERVER = "dbserver.in.cs.ucy.ac.cy";
 
+    // CONNECT WITH THE DATABASE
+    $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
+
+    // Get Slide Metadata
+    $sql_slide_metadata = "SELECT * FROM eplatform_ALL_SLIDES WHERE course_id = '$course_id' AND slide_number_in_course = '$slide_to_load'";
+    $result_slide_metadata = mysqli_query($con,$sql_slide_metadata);
+    $slide_metadata = mysqli_fetch_assoc($result_slide_metadata);
+
+    $session_id    = $slide_metadata['session_id'];
+    $this_slide_id = $slide_metadata['slide_id'];
+
+    // Get submit assignment slide data (content)
+    $sql_slide_data = "SELECT * FROM eplatform_SUBMIT_ASSIGNMENT_SLIDES WHERE slide_id = '$this_slide_id'";
+    $result_slide_data = mysqli_query($con,$sql_slide_data);
+    $slide_data = mysqli_fetch_assoc($result_slide_data);
+
+    $header     = $slide_data['header'];
+    $body       = $slide_data['body'];
+    $is_complex = $slide_data['is_complex'];
+
+    // Create Submit Assignment Slide Rendering
+    echo"
+    <div class='outer-container'>
+        <div class='course-screen'>
+            <!-- Session Bar -->
+            <div class='session-bar' id='session-bar'>
+                <input type='hidden' id='current_session_num' value='$session_id'/>
+                <div id='div_session_1'>Way of Martial Arts</div>
+                <div id='div_session_2'>Roles of an I-Ninja Coach</div>
+                <div id='div_session_3'>Responsibilities of an I-Ninja Coach</div>
+                <div id='div_session_4'>Health and Wellbeing</div>
+                <div id='div_session_5'>Inclusive Martial Arts</div>
+            </div>
+            <!-- Header -->
+            <div class='header-row' id='header-row'>
+                <h1>$header</h1>
+            </div>
+            <!-- Body -->
+            <div class='question-body' id='body-row'>
+                <h3>$body</h3>
+            </div>";
+        if ($is_complex != '1'){
+            echo "
+            <!-- Response Textarea -->
+            <div class='assignment-response' id='response-area-div'>
+                <textarea name='response' placeholder='foo'></textarea>
+            </div>
+            ";
+        }
+        echo"
+        </div>
+    </div>
+    ";
+
+    // Open button bar
+    echo "
+    <div class='button-bar'>
+        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='history.back()'>Back</input>
+    ";
+
+    // Find next slide of this course if it exists
+    $next_slide_num = intval($slide_metadata['slide_number_in_course']) + 1; // The number of the next slide (might not exist)
+
+    $sql_next_slide = "SELECT * FROM eplatform_ALL_SLIDES WHERE course_id = '$course_id' AND slide_number_in_course = '$next_slide_num' ";
+    $result_next_slide = mysqli_query($con, $sql_next_slide);
+    $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
+
+    if ( $next_slide_data != NULL ){
+        echo "
+            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/i-ninja' method='post'>
+                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;'' type='submit'>Next</input>
+                <input type='hidden' name='next_slide' value='$next_slide_num'/>
+                <input type='hidden' name='course_id' value='$course_id'/>
+            </form>";
+    } else {
+        // There is no next slide - End of course
+        // HOME button
+        echo "
+            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
+                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Home</input>
+            </form>
+            ";
+    }
+
+    // Close button bar
+    echo "
+    </div>
+    ";
 }
 
 
