@@ -220,8 +220,8 @@ function assignment_slide($course_id, $slide_to_load){
                 <div id='div_session_5'>Inclusive Martial Arts</div>
             </div>
             <!-- Header -->
-            <div class='header-row'>
-                <h1>$header</h1>
+            <div class='assignment-header'>
+                <h3>$header</h3>
             </div>
             <!-- Body -->
             <div class='assignment_body' id='assignment_body'>
@@ -311,8 +311,8 @@ function submit_assignment_slide($course_id, $slide_to_load){
                 <div id='div_session_5'>Inclusive Martial Arts</div>
             </div>
             <!-- Header -->
-            <div class='header-row' id='header-row'>
-                <h1>$header</h1>
+            <div class='assignment-header' id='header-row'>
+                <h3>$header</h3>
             </div>
             <!-- Body -->
             <div class='question-body' id='body-row'>
@@ -322,7 +322,7 @@ function submit_assignment_slide($course_id, $slide_to_load){
             echo "
             <!-- Response Textarea -->
             <div class='assignment-response' id='response-area-div'>
-                <textarea name='response' placeholder='foo'></textarea>
+                <textarea name='response' placeholder='Enter your final answer here...'></textarea>
             </div>
             ";
         }
@@ -335,6 +335,8 @@ function submit_assignment_slide($course_id, $slide_to_load){
     echo "
     <div class='button-bar'>
         <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='history.back()'>Back</input>
+        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='chat()'>Upload Photo Answer</input>
+        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='chat()'>Upload Video Answer</input>
     ";
 
     // Find next slide of this course if it exists

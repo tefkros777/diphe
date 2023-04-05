@@ -224,28 +224,45 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 }
 
 /* Classes I-NINJA */
-.assignment_body{
-    position: absolute;
-    top: 20%; /* Set to the height of the session-bar & header divs */
-    height: 80%;
+.assignment-header{
+    height: 20%;
     width: 100%;
     display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    background-color: lightgray;
+}
+.assignment-header h3 {
+    font-size: calc(1em + 1vw);
+    max-width: 90%;
+    flex-shrink: 1; /* Allow text to shrink */
+}
+.assignment_body{
+    /*position: absolute;*/
+    display: flex;
+    width: 100%;
+    padding: 2vw;
     flex-wrap: wrap;
-    padding: 2.5rem;
+    flex-grow: 1;
+    justify-content: center;
+    /*top: 20%; !* Set to the height of the session-bar & header divs *!*/
+    /*height: 80%;*/
     /*background-color: lemonchiffon;*/
     /*align-items: center;*/
-    justify-content: center;
 }
 
 .assignment-response{
     display: flex;
     width: 100%;
-    padding: 2vw 5vw 0vw;
+    padding: 2vw;
     border: none;
     flex-grow: 1;
-    background-color: palegreen;
+    /*background-color: palegreen;*/
+    justify-content: center;
 }
 .assignment-response textarea{
+    height: 75%;
+    width: 75%;
 
 }
 
