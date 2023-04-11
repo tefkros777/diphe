@@ -17,7 +17,6 @@ function wellness_warriors_start(){
     // CONNECT WITH THE DATABASE
     $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
 
-    // Always Start from the beginning. There is no progress monitoring in this course
 
     // Get course type (student or teacher)
     if ( isset( $_POST['course_id'] ) ){
@@ -25,18 +24,21 @@ function wellness_warriors_start(){
         $course_name = $course_id == '1' ? "Student Version" : "Teacher Version";
     } else {
         echo "Could not obtain course_id";
-//        die();
-//        $course_id = '1';
-//        $course_name = "fakery";
     }
 
+    // Get last slide for this user
+    $user    = wp_get_current_user();
+    $user_id = $user->id;
+    $sql_last_slide   = "SELECT slide_num FROM eplatform_WW_USER_PROGRESS WHERE user_id = '$user_id' AND course_id = '$course_id' ";
+    $query_last_slide = mysqli_query($con, $sql_last_slide);
+    $last_slide       =  mysqli_fetch_assoc($query_last_slide)['slide_num'];
+
+    // If there is no last slide, start from the beginning
+    if ($last_slide == null) $slide_num = '1';
+    else $slide_num = $last_slide;
+
     // Read slide number from POST
-    if ( isset($_POST['next_slide']) ){
-        $slide_num = $_POST['next_slide'];
-    } else {
-        // If POST does not contain slide number, go to the first slide
-        $slide_num = '1';
-    }
+    if ( isset($_POST['next_slide']) ) $slide_num = $_POST['next_slide'];
 
     // Work out slide type
     $sql_slide_type = "SELECT slide_type FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$slide_num' ";
@@ -50,7 +52,7 @@ function wellness_warriors_start(){
     // Top margin and header
     echo "
     <div class='top-header'>
-        <h1>Wellbeing Warriors - $course_name</h1>
+        <h1>Well-Being Warriors - $course_name</h1>
     </div>
     ";
 
@@ -78,6 +80,10 @@ function wellness_warriors_start(){
         case '6':
             // Disclaimer
             disclaimer_slide($course_id, $slide_num);
+            break;
+        case '9':
+            // Image help
+            img_help_slide($course_id, $slide_num);
             break;
         default:
             // Error
@@ -181,6 +187,7 @@ function cover_slide($course_id, $slide_num){
         </a>
         ";
     }
+    save_user_progress($course_id, $slide_num);
 }
 
 function video_slide($course_id, $slide_num){
@@ -316,6 +323,8 @@ function video_slide($course_id, $slide_num){
     echo "
     </div>
     ";
+
+    save_user_progress($course_id, $slide_num);
 }
 
 function quiz_slide($course_id, $slide_num){
@@ -454,7 +463,7 @@ function quiz_slide($course_id, $slide_num){
     echo "
     </div>
     ";
-
+    save_user_progress($course_id, $slide_num);
 }
 
 function survey_slide($course_id, $slide_num){
@@ -593,6 +602,7 @@ function survey_slide($course_id, $slide_num){
     </div>
     ";
 
+    save_user_progress($course_id, $slide_num);
 }
 
 function guidance_slide($course_id, $slide_num){
@@ -605,7 +615,7 @@ function guidance_slide($course_id, $slide_num){
     // CONNECT WITH THE DATABASE
     $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
 
-    // Get from DB: Video link
+    // Get from DB
     $sql_slide_data = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$slide_num'";
     $result_slide_data = mysqli_query($con,$sql_slide_data);
     $slide_data = mysqli_fetch_assoc($result_slide_data);
@@ -724,6 +734,8 @@ function guidance_slide($course_id, $slide_num){
     echo "
     </div>
     ";
+
+    save_user_progress($course_id, $slide_num);
 }
 
 function disclaimer_slide($course_id, $slide_num){
@@ -800,9 +812,158 @@ function disclaimer_slide($course_id, $slide_num){
     echo "
     </div>
     ";
+
+    save_user_progress($course_id, $slide_num);
+}
+
+function img_help_slide($course_id, $slide_num){
+    // DB Connection
+    $DB_NAME = "diphedb";
+    $MYSQL_USERNAME = "diphedb";
+    $MYSQL_PASSWORD = "JNJaBF0oIAUG0SUd";
+    $HOST_SERVER = "dbserver.in.cs.ucy.ac.cy";
+
+    // CONNECT WITH THE DATABASE
+    $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
+
+    // Get from DB
+    $sql_slide_data = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$slide_num'";
+    $result_slide_data = mysqli_query($con,$sql_slide_data);
+    $slide_data = mysqli_fetch_assoc($result_slide_data);
+
+    // Get from DB: Session, Image, Text
+    $session_num   = $slide_data['session_num'];
+    $header        = $slide_data['header'];
+    $img_uri       = $slide_data['cover_image'];
+    $text          = $slide_data['question_text'];
+
+    // Find session colors
+    $session_colors  = get_session_colors($session_num);
+    $session_1_color = $session_colors['session_1_color'];
+    $session_2_color = $session_colors['session_2_color'];
+    $session_3_color = $session_colors['session_3_color'];
+    $session_4_color = $session_colors['session_4_color'];
+    $session_5_color = $session_colors['session_5_color'];
+    $session_color   = $session_colors['session_color'];
+
+    // Find first slide for every session
+    $s1 = find_first_slide_of_session($course_id, '1');
+    $s2 = find_first_slide_of_session($course_id, '2');
+    $s3 = find_first_slide_of_session($course_id, '3');
+    $s4 = find_first_slide_of_session($course_id, '4');
+    $s5 = find_first_slide_of_session($course_id, '5');
+
+    // Create guidance Slide Rendering
+    echo"
+    <div class='outer-container' onload='setResponseBodySize()'>
+        <div class='course-screen'>
+            <!-- Session Bar -->
+            <div class='session-bar' id='session-bar'>
+                <input type='hidden' id='current_session_num' value='$session_num'/>
+                <div id='1' style='background-color: $session_1_color' onclick='sessionClick(this)'>
+                    <form id='F1' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s1'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 1
+                </div>
+                <div id='2' style='background-color: $session_2_color' onclick='sessionClick(this)'>
+                    <form id='F2' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s2'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 2
+                </div>
+                <div id='3' style='background-color: $session_3_color' onclick='sessionClick(this)'>
+                    <form id='F3' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s3'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 3
+                </div>
+                <div id='4' style='background-color: $session_4_color' onclick='sessionClick(this)'>
+                    <form id='F4' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s4'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 4
+                </div>
+                <div id='5' style='background-color: $session_5_color' onclick='sessionClick(this)'>
+                    <form id='F5' action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                        <input type='hidden' name='next_slide' value='$s5'/>
+                        <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+                    </form>
+                    Session 5
+                </div>
+            </div>
+            <!-- Header -->
+            <div class='guidance-header'>
+                <h3>$header</h3>
+            </div>
+            <!-- Image -->
+            <div class='img-container'>
+                <img src='$img_uri' alt='How to enable subtitles image' >
+            </div>            
+            <!-- Text -->
+            <div class='img-help'>
+                <p>$text</p>
+            </div>
+        </div>
+    </div>
+    ";
+
+    // Include external JS
+    $src = plugin_dir_url(__FILE__) . 'js/wellbeing_warriors_script.js';
+    echo "<script type='text/javascript' src='$src'></script>";
+
+    // Open button bar
+    echo "
+    <div class='button-bar'>
+        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='history.back()'>Back</button>
+    ";
+
+    // Find next slide of this course if it exists
+    $next_slide_num = intval($slide_num) + 1; // The number of the next slide (might not exist)
+
+    $sql_next_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$next_slide_num' ";
+    $result_next_slide = mysqli_query($con, $sql_next_slide);
+    $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
+
+    if ( $next_slide_data != NULL ){
+        echo "
+            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Next</input>
+                <input type='hidden' name='next_slide' value='$next_slide_num'/>
+                <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
+            </form>";
+    } else {
+        // There is no next slide - End of course
+        // HOME button
+        echo "
+            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
+                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Home</input>
+            </form>
+            ";
+    }
+
+    // Close button bar
+    echo "
+    </div>
+    ";
+
+    save_user_progress($course_id, $slide_num);
 }
 
 function show_map(){
+    // DB Connection
+    $DB_NAME = "diphedb";
+    $MYSQL_USERNAME = "diphedb";
+    $MYSQL_PASSWORD = "JNJaBF0oIAUG0SUd";
+    $HOST_SERVER = "dbserver.in.cs.ucy.ac.cy";
+
+    // CONNECT WITH THE DATABASE
+    $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
+
 
 }
 
@@ -874,4 +1035,34 @@ function get_session_colors($session_num): array {
     $result['session_5_color'] = $session_5_color;
     $result['session_color']   = $session_color;
     return $result;
+}
+
+function save_user_progress($course_id, $slide_num){
+    // DB Connection
+    $DB_NAME = "diphedb";
+    $MYSQL_USERNAME = "diphedb";
+    $MYSQL_PASSWORD = "JNJaBF0oIAUG0SUd";
+    $HOST_SERVER = "dbserver.in.cs.ucy.ac.cy";
+
+    // CONNECT WITH THE DATABASE
+    $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
+
+    // Get current user
+    $user = wp_get_current_user();
+    $id = $user->id;
+
+    // Check if user has any existing progress for this course
+    $sql_user_has_progress = "SELECT * FROM eplatform_WW_USER_PROGRESS WHERE user_id = '$id' AND course_id = '$course_id'";
+    $query_user_has_progress = mysqli_query($con, $sql_user_has_progress);
+    $result_user_has_progress = mysqli_fetch_object($query_user_has_progress);
+
+    // If user has no progress record on this course, create one
+    if ($result_user_has_progress == null){
+        $sql_create_progress_record = "INSERT INTO eplatform_WW_USER_PROGRESS (user_id, course_id, slide_num) VALUES ('$id', '$course_id', '$slide_num')";
+         return mysqli_query($con, $sql_create_progress_record);
+    }
+
+    // Update slide left at for this course
+    $sql_update_user_progress = "UPDATE eplatform_WW_USER_PROGRESS SET slide_num = '$slide_num' WHERE user_id = '$id' AND course_id = '$course_id' ";
+    return mysqli_query($con, $sql_update_user_progress);
 }

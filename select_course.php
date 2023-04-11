@@ -8,6 +8,12 @@
  */
 
 function select_course(){
+    // Redirect if user is not logged in
+    if (!is_user_logged_in()){
+        header("Location: https://diphe.cs.ucy.ac.cy/login");
+        die();
+    }
+
     // DB Connection
     $DB_NAME = "diphedb";
     $MYSQL_USERNAME = "diphedb";
@@ -21,31 +27,37 @@ function select_course(){
     $src_css = plugin_dir_url(__FILE__) . 'css/diphe-style.css';
     echo "<link rel='stylesheet' type='text/css' href='$src_css'>";
 
-    // Will need to query slides for this user and user progress (last slide for every course)
+    // Get role of current user
+    $user    = wp_get_current_user();
+    $roles   = (array) $user->roles;
+    $teacher_access = in_array("um_teacher", $roles) || in_array("administrator", $roles);
+
 
     // Show available courses for the user
     echo "<div class='button-bar'>";
 
     // Wellness Warrior Student
-    echo"
+    echo "
         <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-            <button class='session-5-button' type='submit'>Wellbeing Warriors (Student)</button>
+            <button class='session-4-button' style='background-color: #21a800' type='submit'>Well-Being Warriors (Student)</button>
             <input type='hidden' name='course_id' value='1'/>
         </form>
     ";
 
-    // Wellness Warrior Teacher
-    echo"
-        <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-            <button class='session-5-button' type='submit'>Wellbeing Warriors (Teacher)</button>
-            <input type='hidden' name='course_id' value='2'/>
-        </form>
-    ";
+    // Wellness Warrior Teacher - Only visible to teachers
+    if ($teacher_access) {
+        echo "
+            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                <button style='background-color: rgba(28,121,0,0.79)' type='submit'>Well-Being Warriors (Teacher)</button>
+                <input type='hidden' name='course_id' value='2'/>
+            </form>
+        ";
+    }
 
     // i-Ninja Tier 1
-    echo"
+    echo "
         <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/i-ninja' method='post'>
-            <button class='session-1-button' type='submit'>i-Ninja Tier 1 (Under construction)</button>
+            <button style='background-color: rgba(98,134,0,0.83)' type='submit'>i-Ninja Tier 1 (Under construction)</button>
             <input type='hidden' name='course_id' value='3'/>
             <input type='hidden' name='last_slide_for_user' value='1'/> <!--THIS IS HARDCODED FOR TESTING-->
         </form>
