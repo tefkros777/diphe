@@ -298,6 +298,17 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 
 }
 
+.disabled-button{
+    opacity: 70%;
+    background-color: darkgrey;
+    border: solid 1px darkgrey;
+}
+.disabled-button:hover{
+    background-color: darkgrey;
+    border: solid 1px darkgrey;
+    color: white;
+}
+
 /* Classes for buttons depending on session */
 .session-1-button{
     background-color: #A30100;

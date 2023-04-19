@@ -144,40 +144,20 @@ function cover_slide($course_id, $slide_num){
     </div>
     ";
 
+    // No session = default color
+    $session_color = "#61A93F";
+
     // Open button bar
-    echo "
-    <div class='button-bar'>
-        <button class='session-color-button' onclick='history.back()'>Back</input>
-    ";
+    echo "<div class='button-bar'>";
 
-        // Find next slide of this course if it exists
-        $next_slide_num = intval($slide_num) + 1; // The number of the next slide (might not exist)
+    // Back button
+    back_button($course_id, $slide_num, $session_color);
 
-        $sql_next_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$next_slide_num' ";
-        $result_next_slide = mysqli_query($con, $sql_next_slide);
-        $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
-
-        if ( $next_slide_data != NULL ){
-            echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-                <button class='session-color-button' type='submit'>Next</input>
-                <input class='session-color-button' type='hidden' name='next_slide' value='$next_slide_num'/>
-                <input class='session-color-button' type='hidden' name='course_id' value='$slide_data[course_id]'/>
-            </form>";
-        } else {
-            // There is no next slide - End of course
-            // HOME button
-            echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
-                <button class='session-color-button' type='submit'>Home</input>
-            </form>
-            ";
-        }
+    // Next button
+    next_or_home_button($course_id, $slide_num, $session_color);
 
     // Close button bar
-    echo "
-    </div>
-    ";
+    echo "</div>";
 
     // If in Teacher Version, show booklet
     if ($slide_data['course_id'] == '2') {
@@ -187,6 +167,8 @@ function cover_slide($course_id, $slide_num){
         </a>
         ";
     }
+
+    // Save progress before finishing
     save_user_progress($course_id, $slide_num);
 }
 
@@ -290,39 +272,16 @@ function video_slide($course_id, $slide_num){
     echo "<script type='text/javascript' src='$src'></script>";
 
     // Open button bar
-    echo "
-    <div class='button-bar'>
-        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='history.back()'>Back</input>
-    ";
+    echo "<div class='button-bar'>";
 
-    // Find next slide of this course if it exists
-    $next_slide_num = intval($slide_num) + 1; // The number of the next slide (might not exist)
+    // Back button
+    back_button($course_id, $slide_num, $session_color);
 
-    $sql_next_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$next_slide_num' ";
-    $result_next_slide = mysqli_query($con, $sql_next_slide);
-    $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
-
-    if ( $next_slide_data != NULL ){
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Next</input>
-                <input type='hidden' name='next_slide' value='$next_slide_num'/>
-                <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
-            </form>";
-    } else {
-        // There is no next slide - End of course
-        // HOME button
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Home</input>
-            </form>
-            ";
-    }
+    // Next button
+    next_or_home_button($course_id, $slide_num, $session_color);
 
     // Close button bar
-    echo "
-    </div>
-    ";
+    echo "</div>";
 
     save_user_progress($course_id, $slide_num);
 }
@@ -428,41 +387,25 @@ function quiz_slide($course_id, $slide_num){
     echo "<script type='text/javascript' src='$src'></script>";
 
     // Open button bar
-    echo "
-    <div class='button-bar'>
-        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='history.back()'>Back</button>
-        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='notesButton()'>Notes</button>
-        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' id='btn_show' onclick='showAnswer()'>Reveal Answer</button>
-    ";
+    echo "<div class='button-bar'>";
 
-    // Find next slide of this course if it exists
-    $next_slide_num = intval($slide_num) + 1; // The number of the next slide (might not exist)
+    // Back button
+    back_button($course_id, $slide_num, $session_color);
 
-    $sql_next_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$next_slide_num' ";
-    $result_next_slide = mysqli_query($con, $sql_next_slide);
-    $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
+    // Notes button
+    echo "<button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' >Notes</button>";
 
-    if ( $next_slide_data != NULL ){
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Next</input>
-                <input type='hidden' name='next_slide' value='$next_slide_num'/>
-                <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
-            </form>";
-    } else {
-        // There is no next slide - End of course
-        // HOME button
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Home</input>
-            </form>
-            ";
-    }
+    // Reveal answer button
+    echo "<button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' id='btn_show' onclick='showAnswer()'>Reveal Answer</button>";
+
+    // Next button
+    next_or_home_button($course_id, $slide_num, $session_color);
 
     // Close button bar
-    echo "
-    </div>
-    ";
+    echo "</div>";
+
+
+    
     save_user_progress($course_id, $slide_num);
 }
 
@@ -568,39 +511,16 @@ function survey_slide($course_id, $slide_num){
     echo "<script type='text/javascript' src='$src'></script>";
 
     // Open button bar
-    echo "
-    <div class='button-bar'>
-        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='history.back()'>Back</button>
-    ";
+    echo "<div class='button-bar'>";
 
-    // Find next slide of this course if it exists
-    $next_slide_num = intval($slide_num) + 1; // The number of the next slide (might not exist)
+    // Back button
+    back_button($course_id, $slide_num, $session_color);
 
-    $sql_next_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$next_slide_num' ";
-    $result_next_slide = mysqli_query($con, $sql_next_slide);
-    $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
-
-    if ( $next_slide_data != NULL ){
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Next</input>
-                <input type='hidden' name='next_slide' value='$next_slide_num'/>
-                <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
-            </form>";
-    } else {
-        // There is no next slide - End of course
-        // HOME button
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Home</input>
-            </form>
-            ";
-    }
+    // Next button
+    next_or_home_button($course_id, $slide_num, $session_color);
 
     // Close button bar
-    echo "
-    </div>
-    ";
+    echo "</div>";
 
     save_user_progress($course_id, $slide_num);
 }
@@ -701,39 +621,16 @@ function guidance_slide($course_id, $slide_num){
     echo "<script type='text/javascript' src='$src'></script>";
 
     // Open button bar
-    echo "
-    <div class='button-bar'>
-        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='history.back()'>Back</button>
-    ";
+    echo "<div class='button-bar'>";
 
-    // Find next slide of this course if it exists
-    $next_slide_num = intval($slide_num) + 1; // The number of the next slide (might not exist)
+    // Back button
+    back_button($course_id, $slide_num, $session_color);
 
-    $sql_next_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$next_slide_num' ";
-    $result_next_slide = mysqli_query($con, $sql_next_slide);
-    $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
-
-    if ( $next_slide_data != NULL ){
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Next</input>
-                <input type='hidden' name='next_slide' value='$next_slide_num'/>
-                <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
-            </form>";
-    } else {
-        // There is no next slide - End of course
-        // HOME button
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Home</input>
-            </form>
-            ";
-    }
+    // Next button
+    next_or_home_button($course_id, $slide_num, $session_color);
 
     // Close button bar
-    echo "
-    </div>
-    ";
+    echo "</div>";
 
     save_user_progress($course_id, $slide_num);
 }
@@ -778,40 +675,20 @@ function disclaimer_slide($course_id, $slide_num){
     $src = plugin_dir_url(__FILE__) . 'js/wellbeing_warriors_script.js';
     echo "<script type='text/javascript' src='$src'></script>";
 
+    // No session = default colour
+    $session_color = "#61A93F";
+
     // Open button bar
-    echo "
-    <div class='button-bar'>
-        <button class='session-color-button' onclick='history.back()'>Back</button>
-    ";
+    echo "<div class='button-bar'>";
 
-    // Find next slide of this course if it exists
-    $next_slide_num = intval($slide_num) + 1; // The number of the next slide (might not exist)
+    // Back button
+    back_button($course_id, $slide_num, $session_color);
 
-    $sql_next_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$next_slide_num' ";
-    $result_next_slide = mysqli_query($con, $sql_next_slide);
-    $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
-
-    if ( $next_slide_data != NULL ){
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-                <button class='session-color-button' type='submit'>Next</input>
-                <input type='hidden' name='next_slide' value='$next_slide_num'/>
-                <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
-            </form>";
-    } else {
-        // There is no next slide - End of course
-        // HOME button
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
-                <button class='session-color-button' type='submit'>Home</input>
-            </form>
-            ";
-    }
+    // Next button
+    next_or_home_button($course_id, $slide_num, $session_color);
 
     // Close button bar
-    echo "
-    </div>
-    ";
+    echo "</div>";
 
     save_user_progress($course_id, $slide_num);
 }
@@ -917,39 +794,16 @@ function img_help_slide($course_id, $slide_num){
     echo "<script type='text/javascript' src='$src'></script>";
 
     // Open button bar
-    echo "
-    <div class='button-bar'>
-        <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='history.back()'>Back</button>
-    ";
+    echo "<div class='button-bar'>";
 
-    // Find next slide of this course if it exists
-    $next_slide_num = intval($slide_num) + 1; // The number of the next slide (might not exist)
+    // Back button
+    back_button($course_id, $slide_num, $session_color);
 
-    $sql_next_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$next_slide_num' ";
-    $result_next_slide = mysqli_query($con, $sql_next_slide);
-    $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
-
-    if ( $next_slide_data != NULL ){
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Next</input>
-                <input type='hidden' name='next_slide' value='$next_slide_num'/>
-                <input type='hidden' name='course_id' value='$slide_data[course_id]'/>
-            </form>";
-    } else {
-        // There is no next slide - End of course
-        // HOME button
-        echo "
-            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' type='submit'>Home</input>
-            </form>
-            ";
-    }
+    // Next button
+    next_or_home_button($course_id, $slide_num, $session_color);
 
     // Close button bar
-    echo "
-    </div>
-    ";
+    echo "</div>";
 
     save_user_progress($course_id, $slide_num);
 }
@@ -1059,10 +913,78 @@ function save_user_progress($course_id, $slide_num){
     // If user has no progress record on this course, create one
     if ($result_user_has_progress == null){
         $sql_create_progress_record = "INSERT INTO eplatform_WW_USER_PROGRESS (user_id, course_id, slide_num) VALUES ('$id', '$course_id', '$slide_num')";
-         return mysqli_query($con, $sql_create_progress_record);
+        return mysqli_query($con, $sql_create_progress_record);
     }
 
     // Update slide left at for this course
     $sql_update_user_progress = "UPDATE eplatform_WW_USER_PROGRESS SET slide_num = '$slide_num' WHERE user_id = '$id' AND course_id = '$course_id' ";
     return mysqli_query($con, $sql_update_user_progress);
+}
+
+function back_button($course_id, $current_slide_num, $session_color){
+    // DB Connection
+    $DB_NAME = "diphedb";
+    $MYSQL_USERNAME = "diphedb";
+    $MYSQL_PASSWORD = "JNJaBF0oIAUG0SUd";
+    $HOST_SERVER = "dbserver.in.cs.ucy.ac.cy";
+
+    // CONNECT WITH THE DATABASE
+    $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
+
+    // Find previous slide of this course if it exists
+    $prev_slide_num = intval($current_slide_num) - 1;
+
+    $sql_prev_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$prev_slide_num' ";
+    $result_prev_slide = mysqli_query($con, $sql_prev_slide);
+    $prev_slide_data   = mysqli_fetch_assoc($result_prev_slide);
+
+    if ( $prev_slide_data != NULL ){
+        echo "
+            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='submit'>Back</input>
+                <input class='session-color-button' type='hidden' name='next_slide' value='$prev_slide_num'/>
+                <input class='session-color-button' type='hidden' name='course_id' value='$course_id'/>
+            </form>";
+    } else {
+        // There is no previous slide - Beginning of course
+        // Button is disabled
+        echo "
+            <button class='disabled-button' disabled>Back</button>
+        ";
+    }
+}
+
+function next_or_home_button($course_id, $current_slide_num, $session_color){
+    // DB Connection
+    $DB_NAME = "diphedb";
+    $MYSQL_USERNAME = "diphedb";
+    $MYSQL_PASSWORD = "JNJaBF0oIAUG0SUd";
+    $HOST_SERVER = "dbserver.in.cs.ucy.ac.cy";
+
+    // CONNECT WITH THE DATABASE
+    $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
+
+    // Find next slide of this course if it exists
+    $next_slide_num = intval($current_slide_num) + 1; // The number of the next slide (might not exist)
+
+    $sql_next_slide = "SELECT * FROM eplatform_WELLNESS_WARRIOR WHERE course_id = '$course_id' AND slide_num = '$next_slide_num' ";
+    $result_next_slide = mysqli_query($con, $sql_next_slide);
+    $next_slide_data   = mysqli_fetch_assoc($result_next_slide);
+
+    if ( $next_slide_data != NULL ){
+        echo "
+            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
+                <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='submit'>Next</input>
+                <input class='session-color-button' type='hidden' name='next_slide' value='$next_slide_num'/>
+                <input class='session-color-button' type='hidden' name='course_id' value='$course_id'/>
+            </form>";
+    } else {
+        // There is no next slide - End of course
+        // HOME button
+        echo "
+            <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/' method='post'>
+                <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='submit'>Home</button>
+            </form>
+            ";
+    }
 }

@@ -64,5 +64,6 @@ function select_course(){
     ";
 
     echo "</div>";
+
 }
 add_shortcode('select_course', 'select_course');
