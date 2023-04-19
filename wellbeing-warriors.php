@@ -393,7 +393,7 @@ function quiz_slide($course_id, $slide_num){
     back_button($course_id, $slide_num, $session_color);
 
     // Notes button
-    echo "<button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' >Notes</button>";
+    echo "<button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' onclick='showNotes();'>Notes</button>";
 
     // Reveal answer button
     echo "<button class='session-color-button' style='background-color: $session_color; border: 2px solid $session_color;' id='btn_show' onclick='showAnswer()'>Reveal Answer</button>";
@@ -404,8 +404,35 @@ function quiz_slide($course_id, $slide_num){
     // Close button bar
     echo "</div>";
 
+    // Get current user
+    $user    = wp_get_current_user();
+    $user_id = $user->id;
 
-    
+    // Get user notes
+    $sql_user_notes    = "SELECT * FROM eplatform_WW_USER_NOTES WHERE user_id = '$user_id' AND course_id = '$course_id' AND slide_num = '$slide_num' ";
+    $query_user_notes  = mysqli_query($con, $sql_user_notes);
+    $result_user_notes = mysqli_fetch_object($query_user_notes);
+
+    // If user has no notes on this slide, create entry
+    if ($result_user_notes == null){
+        $sql_create_notes_entry = "INSERT INTO eplatform_WW_USER_NOTES (user_id, course_id, slide_num, note_body) VALUES ('$user_id', '$course_id', '$slide_num', NULL)";
+        mysqli_query($con, $sql_create_notes_entry);
+        $notes = "Type your notes here...";
+    } else {
+        $notes = $result_user_notes->note_body;
+    }
+
+    // Notes area (hidden by default)
+    echo "
+    <script src='https://code.jquery.com/jquery-3.6.0.min.js' defer></script>
+    <div class='notes-area' id='notes_div' hidden> 
+        <label for='slide_notes' class='form-label'>Slide notes</label>
+        <textarea class='form-control' id='slide_notes' rows='3' placeholder='Type your notes here...'>$notes</textarea>
+        <button class='session-color-button' type='button' style='background-color: $session_color; border: solid 1px $session_color; width: 100%;' onclick='saveNotes($user_id, $course_id, $slide_num);'>Save notes</button>
+    </div>
+    ";
+
+
     save_user_progress($course_id, $slide_num);
 }
 

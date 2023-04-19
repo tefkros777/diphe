@@ -234,6 +234,27 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     width: 100%;
 }
 
+.disabled-button{
+    opacity: 70%;
+    background-color: darkgrey;
+    border: solid 1px darkgrey;
+}
+.disabled-button:hover{
+    background-color: darkgrey;
+    border: solid 1px darkgrey;
+    color: white;
+}
+
+.notes-area{
+    padding: 1.5rem;
+    margin-right: 0;
+    margin-left: 0;
+    border: solid 1px #FEFEFF;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+
 /*For smaller displays*/
 @media screen and (max-width: 991px) {
     .question-body h3 {
@@ -296,17 +317,6 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     height: 75%;
     width: 75%;
 
-}
-
-.disabled-button{
-    opacity: 70%;
-    background-color: darkgrey;
-    border: solid 1px darkgrey;
-}
-.disabled-button:hover{
-    background-color: darkgrey;
-    border: solid 1px darkgrey;
-    color: white;
 }
 
 /* Classes for buttons depending on session */

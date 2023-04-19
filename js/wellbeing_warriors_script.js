@@ -73,8 +73,52 @@ function showAnswer(){
     }
 }
 
-function notesButton(){
-    alert('This function has not been implemented yet');
+function showNotes(){
+    // Toggle notes area visibility
+    var notesArea =  document.getElementById("notes_div");
+    notesArea.hidden = !notesArea.hidden;
+}
+
+function saveNotes(userId, courseId, slideNum){
+    var notesDiv      = document.getElementById("notes_div");
+    var notesTextArea = document.getElementById("slide_notes");
+    var notesData     = notesTextArea.value;
+
+    //prepare json
+    var jsonData = {
+        "user_id": userId,
+        "course_id": courseId,
+        "slide_num": slideNum,
+        "note_data": notesData
+    }
+
+    var URL = "https://diphe.cs.ucy.ac.cy/wp-content/plugins/diphe-platform/ww-ajax-calls.php"
+
+    //POST the data
+    $.ajax({
+        url: URL,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(jsonData),
+        success: function (response) {
+            // alert('AJAX SUCCESSFUL');
+
+            // Convert response from string to JSON
+            var json = JSON.parse(response);
+
+            if (response == '1'){
+                alert('Notes saved');
+            }
+
+        },
+        error: function(response) {
+            // alert('AJAX FAILED');
+            // alert(response);
+            alert("There was a problem saving your notes");
+        },
+        cache: false,
+        processData: false
+    });
 }
 
 function changeSessionButtonClass(session_num){
