@@ -19,6 +19,11 @@ if (isset($_POST)){
     $sql_update_user_notes = "UPDATE eplatform_WW_USER_NOTES SET note_body = '$note_body' WHERE user_id = '$user_id' AND course_id = '$course_id' AND slide_num = '$slide_num' ";
     $result = mysqli_query($con, $sql_update_user_notes);
 
+    // Prevent SQL Injection
+    $stmt   = $con->prepare("UPDATE eplatform_WW_USER_NOTES SET note_body = (?) WHERE user_id = (?) AND course_id = (?) AND slide_num = (?)");
+    $result = $stmt->bind_param("siii", $note_body, $user_id, $course_id, $slide_num);
+    $result = $stmt->execute();
+
     echo $result;
 
 }
