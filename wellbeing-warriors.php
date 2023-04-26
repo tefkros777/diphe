@@ -87,9 +87,9 @@ function wellness_warriors_start(){
             break;
         default:
             // Error
-            echo "Unknown slide type ($slide_type[slide_type])";
-            echo "<br>";
-            echo "Query: $sql_slide_type";
+//            echo "Unknown slide type ($slide_type[slide_type])";
+//            echo "<br>";
+//            echo "Query: $sql_slide_type";
             break;
     }
 }

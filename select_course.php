@@ -39,7 +39,7 @@ function select_course(){
     // Wellness Warrior Student
     echo "
         <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-            <button class='session-4-button' style='background-color: #21a800' type='submit'>Well-Being Warriors (Student)</button>
+            <button type='submit'>Well-Being Warriors (Student)</button>
             <input type='hidden' name='course_id' value='1'/>
         </form>
     ";
@@ -48,7 +48,7 @@ function select_course(){
     if ($teacher_access) {
         echo "
             <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/wellbeing-warriors' method='post'>
-                <button style='background-color: rgba(28,121,0,0.79)' type='submit'>Well-Being Warriors (Teacher)</button>
+                <button type='submit'>Well-Being Warriors (Teacher)</button>
                 <input type='hidden' name='course_id' value='2'/>
             </form>
         ";
@@ -57,7 +57,7 @@ function select_course(){
     // i-Ninja Tier 1
     echo "
         <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/i-ninja' method='post'>
-            <button style='background-color: rgba(98,134,0,0.83)' type='submit'>i-Ninja Tier 1 (Under construction)</button>
+            <button class='session-5-button' type='submit'>i-Ninja Tier 1 (Under construction)</button>
             <input type='hidden' name='course_id' value='3'/>
             <input type='hidden' name='last_slide_for_user' value='1'/> <!--THIS IS HARDCODED FOR TESTING-->
         </form>
