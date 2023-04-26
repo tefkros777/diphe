@@ -141,5 +141,5 @@ window.addEventListener("load", function() {
     // Once loading is finished, call function
     setCurrentSession();
     setResponseBodySize();
-    setVideoSize();
+    // setVideoSize();
 });

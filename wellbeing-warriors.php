@@ -249,16 +249,30 @@ function video_slide($course_id, $slide_num){
                     </form>
                     Session 5
                 </div>
-            </div>
-            <!-- Header -->
-            <div class='video-title' id='video_title_div'>
-                <h3 id='video_title_text'>$header</h3>
-            </div>
+            </div>";
+            // Some slides have no video title
+            if ($header != null){
+                // There is a title
+                echo"
+                 <!-- Header -->
+                <div class='video-title' id='video_title_div'>
+                    <h3 id='video_title_text'>$header</h3>
+                </div>
+                ";
+                $video_style = 'top: 20% !important; height: 80% !important;';
+
+            } else {
+                // There is no title
+                $video_style = 'top: 10% !important; height: 90% !important;';
+            }
+
+           echo "
             <!-- Video -->
             <iframe 
                 class='video-iframe'
                 id='video_iframe'
                 src='$video_link' 
+                style='$video_style';
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' 
                 allowfullscreen>
