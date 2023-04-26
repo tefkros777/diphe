@@ -134,7 +134,8 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 }
 
 .video-iframe {
-    position: absolute;
+    /*position: absolute;*/
+    flex-grow: 1;
     padding-bottom: 1px;
     width: 100%;
     border: none;
@@ -180,8 +181,8 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 }
 
 .video-title{
-    position: absolute;
-    top: 10%; /* Set to the height of the session-bar div */
+    /*position: absolute;*/
+    /*top: 10%; !* Set to the height of the session-bar div *!*/
     width: 100%;
     height: 10%; /* Set to the remaining height of the course-screen div */
     padding-left: 5rem;
