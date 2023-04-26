@@ -292,7 +292,7 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     /*position: absolute;*/
     display: flex;
     width: 100%;
-    padding: 2vw;
+    padding: 1vw;
     flex-wrap: wrap;
     flex-grow: 1;
     justify-content: center;
@@ -316,6 +316,35 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     width: 75%;
 
 }
+
+/*For the special slides*/
+.bushido-desc{
+    font-size: 0.75vw;
+    /*font-weight: bold;*/
+}
+.bushido-title{
+    font-size: 0.75vw;
+}
+.bushido-table{
+    text-align: center;
+}
+.bushido-table img{
+    width: 32px;
+    height: 43px;
+}
+.bushido-table-symbols{
+    font-size: 0.75vw;
+    font-weight: bold;
+}
+.bushido-table-top{
+    font-size: 0.5vw;
+    text-align: center;
+    font-weight: bold;
+}
+.bushido-table-body{
+    font-size: 0.5em;
+}
+
 
 /* Classes for buttons depending on session */
 .session-1-button{

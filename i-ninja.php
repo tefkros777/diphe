@@ -128,6 +128,8 @@ function ninja_video_slide($course_id, $slide_to_load){
     $s4 = find_first_slide_of_session_ninja($course_id, '4');
     $s5 = find_first_slide_of_session_ninja($course_id, '5');
 
+//ininja_back_button($slide_metadata['slide_id'], $session_color);
+
     // Create Video Slide Rendering
     echo"
     <div class='outer-container'>
@@ -528,4 +530,23 @@ function get_session_colors_ninja($session_num): array {
     $result['session_5_color'] = $session_5_color;
     $result['session_color']   = $session_color;
     return $result;
+}
+
+function ininja_back_button($slide_id, $session_color){
+    // DB Connection
+    $DB_NAME = "diphedb";
+    $MYSQL_USERNAME = "diphedb";
+    $MYSQL_PASSWORD = "JNJaBF0oIAUG0SUd";
+    $HOST_SERVER = "dbserver.in.cs.ucy.ac.cy";
+
+    // CONNECT WITH THE DATABASE
+    $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
+
+    // Get Slide info from DB
+    $sql_slide_info = "SELECT * FROM eplatform_ALL_SLIDES WHERE slide_id = '$slide_id'";
+    $result_slide_info = mysqli_query($con, $sql_slide_info);
+    $slide_info = mysqli_fetch_assoc($result_slide_info);
+
+    var_dump($slide_info); die();
+
 }
