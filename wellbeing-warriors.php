@@ -49,6 +49,10 @@ function wellness_warriors_start(){
     $src_css = plugin_dir_url(__FILE__) . 'css/diphe-style.css';
     echo "<link rel='stylesheet' type='text/css' href='$src_css'>";
 
+    // Include external JS
+    $src = plugin_dir_url(__FILE__) . 'js/wellbeing_warriors_script.js';
+    echo "<script type='text/javascript' src='$src'></script>";
+
     // Top margin and header
     echo "
     <div class='top-header'>
@@ -281,10 +285,6 @@ function video_slide($course_id, $slide_num){
     </div>
     ";
 
-    // Include external JS
-    $src = plugin_dir_url(__FILE__) . 'js/wellbeing_warriors_script.js';
-    echo "<script type='text/javascript' src='$src'></script>";
-
     // Open button bar
     echo "<div class='button-bar'>";
 
@@ -395,10 +395,6 @@ function quiz_slide($course_id, $slide_num){
         </div>
     </div>
     ";
-
-    // Include external JS
-    $src = plugin_dir_url(__FILE__) . 'js/wellbeing_warriors_script.js';
-    echo "<script type='text/javascript' src='$src'></script>";
 
     // Open button bar
     echo "<div class='button-bar'>";
@@ -547,10 +543,6 @@ function survey_slide($course_id, $slide_num){
     </div>
     ";
 
-    // Include external JS
-    $src = plugin_dir_url(__FILE__) . 'js/wellbeing_warriors_script.js';
-    echo "<script type='text/javascript' src='$src'></script>";
-
     // Open button bar
     echo "<div class='button-bar'>";
 
@@ -657,8 +649,6 @@ function guidance_slide($course_id, $slide_num){
     </div>
     ";
 
-    // Include external JS
-    $src = plugin_dir_url(__FILE__) . 'js/wellbeing_warriors_script.js';
     echo "<script type='text/javascript' src='$src'></script>";
 
     // Open button bar
@@ -711,10 +701,6 @@ function disclaimer_slide($course_id, $slide_num){
         </div>
     </div>
     ";
-
-    // Include external JS
-    $src = plugin_dir_url(__FILE__) . 'js/wellbeing_warriors_script.js';
-    echo "<script type='text/javascript' src='$src'></script>";
 
     // No session = default colour
     $session_color = "#61A93F";
@@ -829,10 +815,6 @@ function img_help_slide($course_id, $slide_num){
         </div>
     </div>
     ";
-
-    // Include external JS
-    $src = plugin_dir_url(__FILE__) . 'js/wellbeing_warriors_script.js';
-    echo "<script type='text/javascript' src='$src'></script>";
 
     // Open button bar
     echo "<div class='button-bar'>";
