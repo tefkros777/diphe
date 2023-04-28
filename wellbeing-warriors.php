@@ -648,9 +648,7 @@ function guidance_slide($course_id, $slide_num){
         </div>
     </div>
     ";
-
-    echo "<script type='text/javascript' src='$src'></script>";
-
+    
     // Open button bar
     echo "<div class='button-bar'>";
 
