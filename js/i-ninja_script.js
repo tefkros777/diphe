@@ -53,7 +53,8 @@ function setCurrentSession(){
             changeSessionButtonClass('5');
             break;
         default:
-        // do not color anything
+            changeSessionButtonClass('0');
+            break;
     }
 }
 

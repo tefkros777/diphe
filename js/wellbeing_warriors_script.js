@@ -13,13 +13,20 @@ function setResponseBodySize(){
 }
 
 function setCurrentSession(){
-    var sessionNum = document.getElementById('current_session_num').value;
+    var sessionNumInput = document.getElementById('current_session_num');
 
     var divSession1 = document.getElementById('div_session_1');
     var divSession2 = document.getElementById('div_session_2');
     var divSession3 = document.getElementById('div_session_3');
     var divSession4 = document.getElementById('div_session_4');
     var divSession5 = document.getElementById('div_session_5');
+
+    // If slide has no session, then it's session 0
+    if ( sessionNumInput == null ) {
+        sessionNum = '0';
+    } else {
+        sessionNum = sessionNumInput.value;
+    }
 
     switch (sessionNum){
         case '1':
@@ -39,7 +46,8 @@ function setCurrentSession(){
             changeSessionButtonClass('5');
             break;
         default:
-            // do not color anything
+            changeSessionButtonClass('0');
+            break;
     }
 }
 
@@ -140,6 +148,7 @@ function sessionClick(elem){
 window.addEventListener("load", function() {
     // Once loading is finished, call function
     setCurrentSession();
+
     setResponseBodySize();
     // setVideoSize();
 });
