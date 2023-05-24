@@ -164,13 +164,7 @@ function cover_slide($course_id, $slide_num){
     echo "</div>";
 
     // If in Teacher Version, show booklet
-    if ($slide_data['course_id'] == '2') {
-        echo "
-        <a class='center-a-tag' href='https://drive.google.com/file/d/1fvR6OsBeL8MMnk-LOnM-MaFtS4v4tY0t/view?usp=share_link'>
-            Also check out the Teacher Booklet
-        </a>
-        ";
-    }
+    if ($slide_data['course_id'] == '2') show_ww_teacher_booklet();
 
     // Save progress before finishing
     save_user_progress($course_id, $slide_num);
@@ -296,6 +290,9 @@ function video_slide($course_id, $slide_num){
 
     // Close button bar
     echo "</div>";
+
+    // If in Teacher Version, show booklet
+    if ($slide_data['course_id'] == '2') show_ww_teacher_booklet();
 
     save_user_progress($course_id, $slide_num);
 }
@@ -442,6 +439,8 @@ function quiz_slide($course_id, $slide_num){
     </div>
     ";
 
+    // If in Teacher Version, show booklet
+    if ($slide_data['course_id'] == '2') show_ww_teacher_booklet();
 
     save_user_progress($course_id, $slide_num);
 }
@@ -555,6 +554,9 @@ function survey_slide($course_id, $slide_num){
     // Close button bar
     echo "</div>";
 
+    // If in Teacher Version, show booklet
+    if ($slide_data['course_id'] == '2') show_ww_teacher_booklet();
+
     save_user_progress($course_id, $slide_num);
 }
 
@@ -661,6 +663,9 @@ function guidance_slide($course_id, $slide_num){
     // Close button bar
     echo "</div>";
 
+    // If in Teacher Version, show booklet
+    if ($slide_data['course_id'] == '2') show_ww_teacher_booklet();
+
     save_user_progress($course_id, $slide_num);
 }
 
@@ -714,6 +719,9 @@ function disclaimer_slide($course_id, $slide_num){
 
     // Close button bar
     echo "</div>";
+
+    // If in Teacher Version, show booklet
+    if ($slide_data['course_id'] == '2') show_ww_teacher_booklet();
 
     save_user_progress($course_id, $slide_num);
 }
@@ -825,6 +833,9 @@ function img_help_slide($course_id, $slide_num){
 
     // Close button bar
     echo "</div>";
+
+    // If in Teacher Version, show booklet
+    if ($slide_data['course_id'] == '2') show_ww_teacher_booklet();
 
     save_user_progress($course_id, $slide_num);
 }
@@ -1008,4 +1019,12 @@ function next_or_home_button($course_id, $current_slide_num, $session_color){
             </form>
             ";
     }
+}
+
+function show_ww_teacher_booklet(){
+    echo "
+        <a class='center-a-tag' href='https://drive.google.com/file/d/1fvR6OsBeL8MMnk-LOnM-MaFtS4v4tY0t/view?usp=share_link'>
+            Also check out the Teacher Booklet
+        </a>
+        ";
 }

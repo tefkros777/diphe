@@ -54,6 +54,7 @@ function select_course(){
         ";
     }
 
+    //TODO: Check if is unlocked for this user
     // i-Ninja Tier 1
     echo "
         <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/i-ninja' method='post'>

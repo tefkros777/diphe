@@ -4,11 +4,56 @@ function sessionClick(elem){
     form.submit();
 }
 
-function notes(){
-    alert('This function has not been implemented yet');
+function showNotes(){
+    // Toggle notes area visibility
+    var notesArea =  document.getElementById("notes_div");
+    notesArea.hidden = !notesArea.hidden;
 }
+
+function saveNotes(userId, slideId){
+    // alert('notes btn pressed');
+    var notesDiv      = document.getElementById("notes_div");
+    var notesTextArea = document.getElementById("slide_notes");
+    var notesData     = notesTextArea.value;
+
+    //prepare json
+    var jsonData = {
+        "user_id": userId,
+        "slide_id": slideId,
+        "note_data": notesData
+    }
+
+    var URL = "https://diphe.cs.ucy.ac.cy/wp-content/plugins/diphe-platform/in-ajax-calls.php"
+
+    //POST the data
+    $.ajax({
+        url: URL,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(jsonData),
+        success: function (response) {
+            // alert('AJAX SUCCESSFUL');
+
+            // Convert response from string to JSON
+            var json = JSON.parse(response);
+
+            if (response == '1'){
+                alert('Notes saved');
+            }
+
+        },
+        error: function(response) {
+            // alert('AJAX FAILED');
+            // alert(response);
+            alert("There was a problem saving your notes");
+        },
+        cache: false,
+        processData: false
+    });
+}
+
 function chat(){
-    alert('This function has not been implemented yet');
+    alert('This functionality has not been implemented yet');
 }
 
 function setResponseBodySize(){

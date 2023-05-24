@@ -212,10 +212,39 @@ function ninja_video_slide($course_id, $slide_to_load){
     </div>
     ";
 
+    // Get logged in user
+    $user = wp_get_current_user();
+    $user_id = $user->id;
+
+    // Get user notes
+    $sql_user_notes    = "SELECT * FROM eplatform_iN_USER_NOTES WHERE user_id = '$user_id' AND slide_id = '$slide_metadata[slide_id]' ";
+    $query_user_notes  = mysqli_query($con, $sql_user_notes);
+    $result_user_notes = mysqli_fetch_object($query_user_notes);
+
+    // If user has no notes on this slide, create entry
+    if ($result_user_notes == null){
+        $sql_create_notes_entry = "INSERT INTO eplatform_iN_USER_NOTES (user_id, slide_id, note_body) VALUES ('$user_id', '$slide_metadata[slide_id]', NULL)";
+        mysqli_query($con, $sql_create_notes_entry);
+        $notes = "Type your notes here...";
+    } else {
+        $notes = $result_user_notes->note_body;
+    }
+
+    // Notes area (hidden by default)
+    ininja_notes_area($user_id, $slide_metadata[slide_id], $notes, $session_color);
+
     // Open button bar
     echo "<div class='button-bar'>";
 
     ininja_back_button($slide_metadata['slide_id'], $session_color);
+
+    // I think video slides have no research button
+//    if ( $research_link != null )
+//        ininja_research_button($research_link, $session_color);
+
+    ininja_notes_button($slide_metadata['slide_id'], $session_color);
+
+    ininja_chat_button($session_color);
 
     ininja_next_or_home_button($slide_metadata['slide_id'], $session_color);
 
@@ -323,10 +352,38 @@ function assignment_slide($course_id, $slide_to_load){
     </div>
     ";
 
+    // Get logged in user
+    $user = wp_get_current_user();
+    $user_id = $user->id;
+
+    // Get user notes
+    $sql_user_notes    = "SELECT * FROM eplatform_iN_USER_NOTES WHERE user_id = '$user_id' AND slide_id = '$slide_metadata[slide_id]' ";
+    $query_user_notes  = mysqli_query($con, $sql_user_notes);
+    $result_user_notes = mysqli_fetch_object($query_user_notes);
+
+    // If user has no notes on this slide, create entry
+    if ($result_user_notes == null){
+        $sql_create_notes_entry = "INSERT INTO eplatform_iN_USER_NOTES (user_id, slide_id, note_body) VALUES ('$user_id', '$slide_metadata[slide_id]', NULL)";
+        mysqli_query($con, $sql_create_notes_entry);
+        $notes = "Type your notes here...";
+    } else {
+        $notes = $result_user_notes->note_body;
+    }
+
+    // Notes area (hidden by default)
+    ininja_notes_area($user_id, $slide_metadata[slide_id], $notes, $session_color);
+
     // Open button bar
     echo "<div class='button-bar'>";
 
     ininja_back_button($slide_metadata['slide_id'], $session_color);
+
+    if ( $research_link != null )
+        ininja_research_button($research_link, $session_color);
+
+    ininja_notes_button($slide_metadata['slide_id'], $session_color);
+
+    ininja_chat_button($session_color);
 
     ininja_next_or_home_button($slide_metadata['slide_id'], $session_color);
 
@@ -430,15 +487,18 @@ function submit_assignment_slide($course_id, $slide_to_load){
             <div class='question-body' id='body-row'>
                 <h3>$body</h3>
             </div>";
-        // If this is a simple text input slide
-        if ($is_complex != '1'){
-            echo "
-            <!-- Response Textarea -->
-            <div class='assignment-response' id='response-area-div'>
-                <textarea name='response' placeholder='Enter your final answer here...'></textarea>
-            </div>
-            ";
-        }
+            // If this is a simple text input slide
+            if ($is_complex == '0'){
+                echo "
+                <!-- Response Textarea -->
+                <div class='assignment-response' id='response-area-div'>
+                    <textarea name='response' placeholder='Enter your final answer here...'></textarea>
+                </div>
+                ";
+            }
+            // Else, there is a table to fill
+            else {
+            }
         echo"
         </div>
     </div>
@@ -449,7 +509,54 @@ function submit_assignment_slide($course_id, $slide_to_load){
 
     ininja_back_button($slide_metadata['slide_id'], $session_color);
 
-    ininja_next_or_home_button($slide_metadata['slide_id'], $session_color);
+    if ( $is_complex == 0)
+        ininja_next_or_home_button($slide_metadata['slide_id'], $session_color);
+    else {
+        // A button that will submit the form and then proceed to the next slide
+
+        // Get Slide info from DB
+        $sql_slide_info = "SELECT * FROM eplatform_ALL_SLIDES WHERE slide_id = '$slide_metadata[slide_id]'";
+        $result_slide_info = mysqli_query($con, $sql_slide_info);
+        $slide_info = mysqli_fetch_assoc($result_slide_info);
+
+        // Find next slide of this course (in submit assignment slides it always exists)
+        $next_slide_num = intval($slide_info['slide_number_in_course']) + 1;
+        $course_id = $slide_info['course_id'];
+
+        // Get current user
+        $user = wp_get_current_user();
+        $user_id = $user->id;
+
+        echo "
+            <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='button' onclick='submitTable(`$next_slide_num`, `$course_id`, `$user_id`);'>Next</button>
+            <script>
+                // submit table above 
+                // need to pass user ID too
+                function submitTable(next_slide_num, course_id, user_id){
+                    let form = document.getElementById('answers_table_form');
+                    // Append next_next_slide_num and user_id to form
+                    let next_slide   = document.createElement('input');
+                    let u_id         = document.createElement('input');
+                    let c_id         = document.createElement('input');
+                    u_id.type  = 'hidden';
+                    u_id.name  = 'user_id';
+                    u_id.value =  user_id;
+                    next_slide.type  = 'hidden';
+                    next_slide.name  = 'next_slide_num';
+                    next_slide.value =  next_slide_num;                    
+                    c_id.type  = 'hidden';
+                    c_id.name  = 'course_id';
+                    c_id.value =  course_id;
+                    form.appendChild(next_slide);
+                    form.appendChild(u_id);
+                    form.appendChild(c_id);
+                    form.submit();
+                }
+            </script>
+        ";
+
+    }
+
 
     // Close button bar
     echo "</div>";
@@ -607,6 +714,55 @@ function ininja_next_or_home_button($slide_id, $session_color){
             </form>
         ";
     }
+}
+
+function ininja_research_button($research_link, $session_color){
+    echo "
+        <button 
+            class='session-color-button' 
+            style='background-color: $session_color; border: 2px solid $session_color;' 
+            onclick='window.open(`$research_link`,`_blank`)'>
+            Research
+        </button>
+        ";
+}
+
+function ininja_notes_button($slide_id, $session_color){
+    echo "
+        <button 
+            class='session-color-button' 
+            style='background-color: $session_color; border: 2px solid $session_color;' 
+            onclick='showNotes();'>
+            Notes
+        </button>
+        ";
+}
+
+function ininja_chat_button($session_color){
+    echo "
+        <button 
+            class='session-color-button' 
+            style='background-color: $session_color; border: 2px solid $session_color;' 
+            onclick='chat();'>
+            Chat to learners
+        </button>
+        ";
+}
+
+function ininja_notes_area($user_id, $slide_id, $notes, $session_color){
+    echo "
+    <script src='https://code.jquery.com/jquery-3.6.0.min.js' defer></script>
+    <div class='notes-area' id='notes_div' hidden> 
+        <label for='slide_notes' class='form-label'>Slide notes</label>
+        <textarea class='form-control' id='slide_notes' rows='3' placeholder='Type your notes here...'>$notes</textarea>
+        <button class='session-color-button' 
+            type='button' 
+            style='background-color: $session_color; border: solid 1px $session_color; width: 100%;' 
+            onclick='saveNotes(`$user_id`, `$slide_id`);'>
+                Save notes
+        </button>
+    </div>
+    ";
 }
 
 function ininja_save_user_progress($slide_id){

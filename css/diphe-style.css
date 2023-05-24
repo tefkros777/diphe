@@ -144,17 +144,15 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 .question-body {
     /*position: absolute;*/
     /*top: 30%;*/
+    overflow: auto;
     width: 100%;
     padding-left: 2.5vw;
-    padding-right: 5vw;
+    padding-right: 2.5vw;
     border: none;
     justify-content: center;
     /*background-color: darkcyan;*/
 
     display: flex;
-}
-.question-body h3{
-    /*font-size: calc(1em + 1vw);*/
 }
 
 .response-body{
@@ -290,7 +288,10 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 }
 .assignment_body{
     /*position: absolute;*/
-    display: flex;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    align-items: center;
+    overflow: auto;
     width: 100%;
     padding: 1vw;
     flex-wrap: wrap;
@@ -299,7 +300,6 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     /*top: 20%; !* Set to the height of the session-bar & header divs *!*/
     /*height: 80%;*/
     /*background-color: lemonchiffon;*/
-    /*align-items: center;*/
 }
 
 .assignment-response{
@@ -345,6 +345,19 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
     font-size: 0.5em;
 }
 
+.coach-word-table{
+    color: white;
+    width: auto;
+    font-weight: bold;
+    border-spacing: 1rem;
+    border-collapse: separate;
+}
+.coach-word-table td{
+    width: 3rem;
+    height: 2rem;
+    background-color: #1983E7;
+    padding: 1rem;
+}
 
 /* Classes for buttons depending on session */
 .session-0-button{
