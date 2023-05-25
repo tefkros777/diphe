@@ -496,7 +496,13 @@ function submit_assignment_slide($course_id, $slide_to_load){
                 echo "
                 <!-- Response Textarea -->
                 <div class='assignment-response' id='response-area-div'>
-                    <textarea name='response' placeholder='Enter your final answer here...'></textarea>
+                    <form 
+                        id='user_answer_form' 
+                        action='https://diphe.cs.ucy.ac.cy/wp-content/plugins/diphe-platform/simple_submission_action_page.php' 
+                        style='display: flex; width: 100%; justify-content: center;'
+                        method='POST'>
+                        <textarea id='answer_textarea' name='response' placeholder='Enter your final answer here...'></textarea>
+                    </form>
                 </div>
                 ";
             }
@@ -513,8 +519,74 @@ function submit_assignment_slide($course_id, $slide_to_load){
 
     ininja_back_button($slide_metadata['slide_id'], $session_color);
 
-    if ( $is_complex == 0)
-        ininja_next_or_home_button($slide_metadata['slide_id'], $session_color);
+    if ( $is_complex == 0) {
+        // Get existing answer for this user for this slide, if exists
+        $sql_user_answer = "SELECT * FROM eplatform_iN_SIMPLE_INPUT WHERE slide_id = '$slide_metadata[slide_id]' AND user_id = '$user_id' ";
+        $result_user_answer = mysqli_query($con, $sql_user_answer);
+        $user_answer = mysqli_fetch_all($result_user_answer, MYSQLI_ASSOC);
+
+        // If it's null there is nothing to load - proceed without loading anything
+        if ($user_answer != NULL){
+            // Extract answer text
+            $answer_body = $user_answer[0]['answer_body'];
+
+            // JS to add answers to the table that already exists in the DOM
+            echo "
+            <script>
+               function loadExistingAnswer(user_answer) {
+                  console.log(user_answer);
+                  
+                  let textarea = document.getElementById('answer_textarea');
+                  if (textarea != null) textarea.value = user_answer;
+               }
+                window.addEventListener('load', loadExistingAnswer(`$answer_body`) );
+            </script>";
+        }
+
+        // Get Slide info from DB
+        $sql_slide_info = "SELECT * FROM eplatform_ALL_SLIDES WHERE slide_id = '$slide_metadata[slide_id]'";
+        $result_slide_info = mysqli_query($con, $sql_slide_info);
+        $slide_info = mysqli_fetch_assoc($result_slide_info);
+
+        // Find next slide of this course (in submit assignment slides it always exists)
+        $next_slide_num = intval($slide_info['slide_number_in_course']) + 1;
+        $course_id = $slide_info['course_id'];
+
+        // Save answer and Next button
+        echo "
+            <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='button' onclick='submitAnswer(`$slide_metadata[slide_id]`, `$next_slide_num`, `$course_id`, `$user_id`);'>Next</button>
+            <script>
+                // submit user answer
+                function submitAnswer(slide_id, next_slide_num, course_id, user_id){
+                    let form = document.getElementById('user_answer_form');
+                    // Append slide_id, next_next_slide_num, user_id, course_id to form
+                    let next_slide   = document.createElement('input');
+                    let u_id         = document.createElement('input');
+                    let c_id         = document.createElement('input');
+                    let s_id         = document.createElement('input');
+                    u_id.type  = 'hidden';
+                    u_id.name  = 'user_id';
+                    u_id.value =  user_id;
+                    next_slide.type  = 'hidden';
+                    next_slide.name  = 'next_slide_num';
+                    next_slide.value =  next_slide_num;                    
+                    c_id.type  = 'hidden';
+                    c_id.name  = 'course_id';
+                    c_id.value =  course_id;                    
+                    s_id.type  = 'hidden';
+                    s_id.name  = 'slide_id';
+                    s_id.value =  slide_id;
+                    form.appendChild(next_slide);
+                    form.appendChild(u_id);
+                    form.appendChild(c_id);
+                    form.appendChild(s_id);
+                    form.submit();
+                }
+            </script>
+        ";
+
+
+    }
     else {
         // Get existing records for this user for this slide, if exists
         $sql_user_answers = "SELECT * FROM eplatform_iN_SPECIAL_INPUT WHERE slide_id = '$slide_metadata[slide_id]' AND user_id = '$user_id' ";
@@ -534,7 +606,7 @@ function submit_assignment_slide($course_id, $slide_to_load){
                   const answerJSON = JSON.parse(userAnswersArray); 
                   console.log(answerJSON);
                   
-                  // TODO: Add every value in answerJSON to its corresponding place in the DOM
+                  // Add every value in answerJSON to its corresponding place in the DOM
                   // Cell 0_0
                   let c00 = document.getElementsByName('0_0');
                   if (c00 != null) c00[0].value = answerJSON[0]['0_0'];
@@ -648,7 +720,6 @@ function submit_assignment_slide($course_id, $slide_to_load){
                 }
             </script>
         ";
-
     }
 
 
