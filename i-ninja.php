@@ -403,6 +403,10 @@ function submit_assignment_slide($course_id, $slide_to_load){
     // CONNECT WITH THE DATABASE
     $con = mysqli_connect($HOST_SERVER, $MYSQL_USERNAME, $MYSQL_PASSWORD, $DB_NAME) or die (' Could not connect to the DB ');
 
+    // Get current user
+    $user = wp_get_current_user();
+    $user_id = $user->id;
+
     // Get Slide Metadata
     $sql_slide_metadata = "SELECT * FROM eplatform_ALL_SLIDES WHERE course_id = '$course_id' AND slide_number_in_course = '$slide_to_load'";
     $result_slide_metadata = mysqli_query($con,$sql_slide_metadata);
@@ -512,7 +516,101 @@ function submit_assignment_slide($course_id, $slide_to_load){
     if ( $is_complex == 0)
         ininja_next_or_home_button($slide_metadata['slide_id'], $session_color);
     else {
-        // A button that will submit the form and then proceed to the next slide
+        // Get existing records for this user for this slide, if exists
+        $sql_user_answers = "SELECT * FROM eplatform_iN_SPECIAL_INPUT WHERE slide_id = '$slide_metadata[slide_id]' AND user_id = '$user_id' ";
+        $result_user_answers = mysqli_query($con, $sql_user_answers);
+        $user_answers = mysqli_fetch_all($result_user_answers, MYSQLI_ASSOC);
+
+        // If it's null there is nothing to load - proceed without loading anything
+        if ($user_answers != NULL){
+            // Serialize user_answers to it to JS
+            $user_answers_JSON = json_encode($user_answers);
+
+            // JS to add answers to the table that already exists in the DOM
+            echo "
+            <script>
+               function addAnswersToTable(userAnswersArray) {
+                  // convert userAnswersArray to encapsulated object
+                  const answerJSON = JSON.parse(userAnswersArray); 
+                  console.log(answerJSON);
+                  
+                  // TODO: Add every value in answerJSON to its corresponding place in the DOM
+                  // Cell 0_0
+                  let c00 = document.getElementsByName('0_0');
+                  if (c00 != null) c00[0].value = answerJSON[0]['0_0'];
+                  
+                  // Cell 0_1
+                  let c01 = document.getElementsByName('0_1');
+                  if (c01 != null) c01[0].value = answerJSON[0]['0_1'];
+                  
+                  // Cell 0_2
+                  let c02 = document.getElementsByName('0_2');
+                  if (c02 != null) c02[0].value = answerJSON[0]['0_2'];
+                  
+                  // Cell 0_3
+                  let c03 = document.getElementsByName('0_3');
+                  if (c03 != null) c03[0].value = answerJSON[0]['0_3'];
+                  
+                  // Cell 0_4
+                  let c04 = document.getElementsByName('0_4');
+                  if (c04 != null) c04[0].value = answerJSON[0]['0_4'];
+                  
+                  // Cell 0_5
+                  let c05 = document.getElementsByName('0_5');
+                  if (c05 != null) c05[0].value = answerJSON[0]['0_5'];
+                  
+                  // Cell 0_6
+                  let c06 = document.getElementsByName('0_6');
+                  if (c06 != null) c06[0].value = answerJSON[0]['0_6'];
+                  
+                  // Cell 0_7
+                  let c07 = document.getElementsByName('0_7');
+                  if (c07 != null) c07[0].value = answerJSON[0]['0_7'];
+                  
+                  // Cell 0_8
+                  let c08 = document.getElementsByName('0_8');
+                  if (c08 != null) c08[0].value = answerJSON[0]['0_8'];
+                  
+                  // Cell 1_0
+                  let c10 = document.getElementsByName('1_0');
+                  if (c10 != null) c10[0].value = answerJSON[0]['1_0'];
+                  
+                  // Cell 1_1
+                  let c11 = document.getElementsByName('1_1');
+                  if (c11 != null) c11[0].value = answerJSON[0]['1_1'];
+                  
+                  // Cell 1_2
+                  let c12 = document.getElementsByName('1_2');
+                  if (c12 != null) c12[0].value = answerJSON[0]['1_2'];
+                  
+                  // Cell 1_3
+                  let c13 = document.getElementsByName('1_3');
+                  if (c13 != null) c13[0].value = answerJSON[0]['1_3'];
+                  
+                  // Cell 1_4
+                  let c14 = document.getElementsByName('1_4');
+                  if (c14 != null) c14[0].value = answerJSON[0]['1_4'];
+                  
+                  // Cell 1_5
+                  let c15 = document.getElementsByName('1_5');
+                  if (c15 != null) c15[0].value = answerJSON[0]['1_5'];
+                  
+                  // Cell 1_6
+                  let c16 = document.getElementsByName('1_6');
+                  if (c16 != null) c16[0].value = answerJSON[0]['1_6'];
+                  
+                  // Cell 1_7
+                  let c17 = document.getElementsByName('1_7');
+                  if (c17 != null) c17[0].value = answerJSON[0]['1_7'];
+                  
+                  // Cell 1_8
+                  let c18 = document.getElementsByName('1_8');
+                  if (c18 != null) c18[0].value = answerJSON[0]['1_8'];
+               }
+                window.addEventListener('load', addAnswersToTable(`$user_answers_JSON`) );
+            </script>
+            ";
+        }
 
         // Get Slide info from DB
         $sql_slide_info = "SELECT * FROM eplatform_ALL_SLIDES WHERE slide_id = '$slide_metadata[slide_id]'";
@@ -523,15 +621,11 @@ function submit_assignment_slide($course_id, $slide_to_load){
         $next_slide_num = intval($slide_info['slide_number_in_course']) + 1;
         $course_id = $slide_info['course_id'];
 
-        // Get current user
-        $user = wp_get_current_user();
-        $user_id = $user->id;
-
+        // Save answer and Next button
         echo "
             <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='button' onclick='submitTable(`$next_slide_num`, `$course_id`, `$user_id`);'>Next</button>
             <script>
                 // submit table above 
-                // need to pass user ID too
                 function submitTable(next_slide_num, course_id, user_id){
                     let form = document.getElementById('answers_table_form');
                     // Append next_next_slide_num and user_id to form
