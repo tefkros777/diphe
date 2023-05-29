@@ -488,8 +488,16 @@ function submit_assignment_slide($course_id, $slide_to_load){
                 <h3>$header</h3>
             </div>
             <!-- Body -->
-            <div class='question-body' id='body-row'>
-                <h3>$body</h3>
+            <div class='question-body' id='body-row'>";
+                // Slide S1.4.7 is special
+                if ($slide_metadata['slide_id'] == 'S1.4.7') {
+                    // For slide S1.4.7 output body in <p> tag
+                    echo "<p>$body</p>";
+                }
+                else {
+                    echo "<h3>$body</h3>";
+                }
+            echo"
             </div>";
             // If this is a simple text input slide
             if ($is_complex == '0'){
@@ -499,8 +507,10 @@ function submit_assignment_slide($course_id, $slide_to_load){
                     <form 
                         id='user_answer_form' 
                         action='https://diphe.cs.ucy.ac.cy/wp-content/plugins/diphe-platform/simple_submission_action_page.php' 
+                        enctype='multipart/form-data'
                         style='display: flex; width: 100%; justify-content: center;'
                         method='POST'>
+                        <p></p>
                         <textarea id='answer_textarea' name='response' placeholder='Enter your final answer here...'></textarea>
                     </form>
                 </div>
@@ -552,14 +562,41 @@ function submit_assignment_slide($course_id, $slide_to_load){
         $next_slide_num = intval($slide_info['slide_number_in_course']) + 1;
         $course_id = $slide_info['course_id'];
 
+        // Upload Photo/Video Answer Button
+        echo "
+            <div class='d-inline-block' style='text-align: center;'>";
+
+                // Check if there is already a file submission and show it
+                $sql    = "SELECT * FROM eplatform_USER_SUBMISSIONS WHERE user_id = '$user_id' AND slide_id = '$slide_metadata[slide_id]' ";
+                $result = mysqli_query($con, $sql);
+                $existing_file_answer = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+                if ($existing_file_answer != NULL){
+                    $existing_file_link = $existing_file_answer[0][file_link];
+                    echo "<div>
+                            <b>You already have a file submission for this slide.</b> 
+                            <a href='$existing_file_link' target='_blank'>View your existing submission</a>
+                          </div>";
+                    echo "<div>If you upload a new file, the <u>existing one will be overwritten<u></div><br>";
+                }
+
+                echo"
+                <label for='photo_video_answer'>Upload Photo/Video Answer (Optional)</label>
+                <input id='photo_video_answer' class='form-control' name='photo_video_answer' type='file' accept='.jpg,.jpeg,.png,.mp4'/>
+                <!-- <div class='form-text'>Supported file types: jpg, jpeg, png, mo4</div> -->
+                
+            </div>    
+        ";
+
         // Save answer and Next button
         echo "
-            <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='button' onclick='submitAnswer(`$slide_metadata[slide_id]`, `$next_slide_num`, `$course_id`, `$user_id`);'>Next</button>
+            <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='button' onclick='submitAnswer(`$slide_metadata[slide_id]`, `$next_slide_num`, `$course_id`, `$user_id`);'>Save & Next</button>
             <script>
                 // submit user answer
                 function submitAnswer(slide_id, next_slide_num, course_id, user_id){
                     let form = document.getElementById('user_answer_form');
-                    // Append slide_id, next_next_slide_num, user_id, course_id to form
+                    // Append uploaded_file, slide_id, next_next_slide_num, user_id, course_id to form
+                    let file_answer  = document.getElementById('photo_video_answer');
                     let next_slide   = document.createElement('input');
                     let u_id         = document.createElement('input');
                     let c_id         = document.createElement('input');
@@ -580,12 +617,11 @@ function submit_assignment_slide($course_id, $slide_to_load){
                     form.appendChild(u_id);
                     form.appendChild(c_id);
                     form.appendChild(s_id);
+                    form.appendChild(file_answer);
                     form.submit();
                 }
             </script>
         ";
-
-
     }
     else {
         // Get existing records for this user for this slide, if exists
@@ -695,7 +731,7 @@ function submit_assignment_slide($course_id, $slide_to_load){
 
         // Save answer and Next button
         echo "
-            <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='button' onclick='submitTable(`$next_slide_num`, `$course_id`, `$user_id`);'>Next</button>
+            <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='button' onclick='submitTable(`$next_slide_num`, `$course_id`, `$user_id`);'>Save & Next</button>
             <script>
                 // submit table above 
                 function submitTable(next_slide_num, course_id, user_id){
@@ -828,7 +864,7 @@ function ininja_back_button($slide_id, $session_color){
         // Print back button
         echo "
             <form action='https://diphe.cs.ucy.ac.cy/e-learning-platform/i-ninja' method='post'>
-                <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='submit'>Back</input>
+                <button class='session-color-button' style='background-color: $session_color; border: solid 1px $session_color;' type='submit'>Back</button>
                 <input class='session-color-button' type='hidden' name='next_slide' value='$prev_slide_num'/>
                 <input class='session-color-button' type='hidden' name='course_id' value='$course_id'/>
             </form>";
