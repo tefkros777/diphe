@@ -317,6 +317,13 @@ Author: Constantinos Tekros Loizoi - SEIT Lab
 
 }
 
+.photo-video-submission-div{
+    margin-top: 1rem;
+    border: solid 1px #CDCDCC;
+    border-radius: 4px;
+    text-align: center;
+}
+
 /*For the special slides*/
 .bushido-desc{
     font-size: 0.75vw;

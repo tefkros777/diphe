@@ -112,6 +112,10 @@ function changeSessionButtonClass(session_num){
     });
 }
 
+function hideShowUploadPhotoVideoDiv(){
+    var div = document.getElementById('photo_video_submission_div');
+    div.hidden = !div.hidden;
+}
 // Called automatically when page loads
 window.addEventListener("load", function() {
     // Once loading is finished, call function

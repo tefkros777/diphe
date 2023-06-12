@@ -55,7 +55,8 @@ function i_ninja_start(){
     if ( isset( $_POST['next_slide'] ) ){
         // Load next slide of this course
         $slide_to_load = $_POST['next_slide'];
-    } else {
+    }
+    else {
         // Get last slide for this user
 
         // MUST GIVE 'slide_number_in_course' and not slide_id
@@ -563,30 +564,13 @@ function submit_assignment_slide($course_id, $slide_to_load){
         $course_id = $slide_info['course_id'];
 
         // Upload Photo/Video Answer Button
-        echo "
-            <div class='d-inline-block' style='text-align: center;'>";
-
-                // Check if there is already a file submission and show it
-                $sql    = "SELECT * FROM eplatform_USER_SUBMISSIONS WHERE user_id = '$user_id' AND slide_id = '$slide_metadata[slide_id]' ";
-                $result = mysqli_query($con, $sql);
-                $existing_file_answer = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-                if ($existing_file_answer != NULL){
-                    $existing_file_link = $existing_file_answer[0][file_link];
-                    echo "<div>
-                            <b>You already have a file submission for this slide.</b> 
-                            <a href='$existing_file_link' target='_blank'>View your existing submission</a>
-                          </div>";
-                    echo "<div>If you upload a new file, the <u>existing one will be overwritten<u></div><br>";
-                }
-
-                echo"
-                <label for='photo_video_answer'>Upload Photo/Video Answer (Optional)</label>
-                <input id='photo_video_answer' class='form-control' name='photo_video_answer' type='file' accept='.jpg,.jpeg,.png,.mp4'/>
-                <!-- <div class='form-text'>Supported file types: jpg, jpeg, png, mo4</div> -->
-                
-            </div>    
-        ";
+        echo "<button 
+                class='session-color-button' 
+                style='background-color: $session_color; border: solid 1px $session_color;' 
+                type='button'
+                onclick='hideShowUploadPhotoVideoDiv();'>
+                Upload Photo/Video Answer
+             </button>";
 
         // Save answer and Next button
         echo "
@@ -597,6 +581,7 @@ function submit_assignment_slide($course_id, $slide_to_load){
                     let form = document.getElementById('user_answer_form');
                     // Append uploaded_file, slide_id, next_next_slide_num, user_id, course_id to form
                     let file_answer  = document.getElementById('photo_video_answer');
+                    file_answer.hidden = true;
                     let next_slide   = document.createElement('input');
                     let u_id         = document.createElement('input');
                     let c_id         = document.createElement('input');
@@ -761,6 +746,31 @@ function submit_assignment_slide($course_id, $slide_to_load){
 
     // Close button bar
     echo "</div>";
+
+    // File submission area (for non-complex slides)
+    echo "
+    <div id='photo_video_submission_div' class='photo-video-submission-div' hidden>";
+
+        echo"
+        <label for='photo_video_answer' style='padding-bottom: 5px;'>Upload Photo/Video Answer (Optional)</label>";
+
+        // Check if there is already a file submission and show it
+        $sql    = "SELECT * FROM eplatform_USER_SUBMISSIONS WHERE user_id = '$user_id' AND slide_id = '$slide_metadata[slide_id]' ";
+        $result = mysqli_query($con, $sql);
+        $existing_file_answer = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        if ($existing_file_answer != NULL){
+            $existing_file_link = $existing_file_answer[0][file_link];
+            echo "
+            <div>
+                <b>You already have a photo/video submission for this slide.</b> 
+                <a href='$existing_file_link' target='_blank'>View your existing submission</a>
+            </div>
+            <div>If you upload a new file, the <u>existing one will be overwritten<u></div>";
+        }
+        echo"
+        <input id='photo_video_answer' class='form-control' name='photo_video_answer' type='file' accept='.jpg,.jpeg,.png,.mp4'/>
+    </div>";
 
     ininja_save_user_progress($this_slide_id);
 }

@@ -121,8 +121,8 @@ if( file_exists($_FILES['photo_video_answer']['tmp_name']) || is_uploaded_file($
     }
 
 } else {
-    echo "No file received";
-    die();
+//    echo "No file received";
+//    die();
 }
 
 if ( $result ){
